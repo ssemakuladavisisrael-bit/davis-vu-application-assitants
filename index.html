@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Davis VU Application Assistant</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f8f5;
+      color: #222;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #087443;
+      color: white;
+      padding: 18px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 24px;
+    }
+
+    header p {
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    .hero {
+      background: white;
+      padding: 45px 20px;
+      text-align: center;
+    }
+
+    .hero h2 {
+      font-size: 32px;
+      color: #087443;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      max-width: 600px;
+      margin: auto;
+      color: #555;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 25px;
+      background: #087443;
+      color: white;
+      padding: 13px 25px;
+      border-radius: 7px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    }
+
+    .card h2 {
+      color: #087443;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 100px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      background: #087443;
+      color: white;
+      border: none;
+      border-radius: 7px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .notice {
+      margin-top: 20px;
+      padding: 12px;
+      background: #eef7f1;
+      border-left: 4px solid #087443;
+      font-size: 13px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      background: #063d25;
+      color: white;
+      margin-top: 40px;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Davis VU Application Assistant</h1>
+  <p>Student Application Support</p>
+</header>
+
+<section class="hero">
+  <h2>Need Help Applying to Victoria University?</h2>
+
+  <p>
+    I help students understand the application process,
+    choose programmes and prepare their application information.
+  </p>
+
+  <a href="#application" class="btn">Start Application</a>
+</section>
+
+<div class="container" id="application">
+
+  <div class="card">
+
+    <h2>Student Application Form</h2>
+
+    <form id="applicationForm">
+
+      <label>Full Name</label>
+      <input type="text" id="fullName" required>
+
+      <label>Phone Number</label>
+      <input type="tel" id="phone" required>
+
+      <label>Email Address</label>
+      <input type="email" id="email">
+
+      <label>Programme</label>
+      <select id="programme" required>
+        <option value="">Select Programme</option>
+        <option>Bachelor of Nursing Science</option>
+        <option>Bachelor of Pharmacy</option>
+        <option>Bachelor of Software Engineering</option>
+        <option>Bachelor of Business Administration</option>
+        <option>Bachelor of Tourism Management</option>
+        <option>Other / I need guidance</option>
+      </select>
+
+      <label>Intake</label>
+      <select id="intake">
+        <option value="">Select Intake</option>
+        <option>January Intake</option>
+        <option>May Intake</option>
+        <option>August Intake</option>
+        <option>October Intake</option>
+        <option>Not sure</option>
+      </select>
+
+      <label>Education Level</label>
+      <select id="education">
+        <option value="">Select Level</option>
+        <option>UCE / O-Level</option>
+        <option>UACE / A-Level</option>
+        <option>Diploma</option>
+        <option>Degree</option>
+        <option>Other</option>
+      </select>
+
+      <label>Additional Information</label>
+      <textarea id="message"
+        placeholder="Tell me anything you need help with..."></textarea>
+
+      <input type="hidden"
+             id="assistedBy"
+             value="Davis Ssemakula">
+
+      <div class="notice">
+        <strong>Application assistance:</strong>
+        This is an independent student application assistance service.
+        Victoria University admissions are handled through Victoria University's
+        official admissions process.
+      </div>
+
+      <button type="submit">
+        Submit Application
+      </button>
+
+    </form>
+
+    <div id="successMessage"></div>
+
+  </div>
+
+</div>
+
+<footer>
+  <p>Assisted by Davis Ssemakula</p>
+  <p>Independent student application assistance service</p>
+</footer>
+
+<script>
+
+document.getElementById("applicationForm")
+.addEventListener("submit", function(event) {
+
+  event.preventDefault();
+
+  const application = {
+
+    fullName: document.getElementById("fullName").value,
+
+    phone: document.getElementById("phone").value,
+
+    email: document.getElementById("email").value,
+
+    programme: document.getElementById("programme").value,
+
+    intake: document.getElementById("intake").value,
+
+    education: document.getElementById("education").value,
+
+    message: document.getElementById("message").value,
+
+    assistedBy: "Davis Ssemakula",
+
+    date: new Date().toLocaleString()
+
+  };
+
+  console.log(application);
+
+  document.getElementById("successMessage").innerHTML =
+
+    "<div class='notice'>" +
+    "<strong>Application received!</strong><br>" +
+    "Thank you. Davis Ssemakula will assist you with the next steps." +
+    "</div>";
+
+  document.getElementById("applicationForm").reset();
+
+});
+
+</script>
+
+</body>
+</html>
