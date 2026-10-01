@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Davis VU Application Assistant</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
+header{background:#0b3d91;color:#fff;padding:24px 16px;text-align:center}header h1{margin:0 0 7px;font-size:27px}header p{margin:0}
+nav{background:#fff;position:sticky;top:0;z-index:5;display:flex;justify-content:center;gap:8px;padding:10px;border-bottom:1px solid #ddd}
+nav a{text-decoration:none;color:#0b3d91;font-weight:700;padding:8px 10px}
+.container{max-width:1000px;margin:24px auto;padding:0 15px}
+.hero,.card{background:#fff;border-radius:16px;padding:24px;box-shadow:0 5px 22px #00000012;margin-bottom:20px}
+.hero h2{color:#0b3d91;margin-top:0}.hero p{line-height:1.6;color:#4b5563}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.actions a{padding:12px 16px;border-radius:9px;text-decoration:none;font-weight:700}
+.whatsapp{background:#128c7e;color:#fff}.call{background:#0b3d91;color:#fff}
+h2{color:#0b3d91}.search{width:100%;padding:14px;border:1px solid #cbd5e1;border-radius:10px;font-size:16px;margin:10px 0 18px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.filters button{border:1px solid #0b3d91;background:#fff;color:#0b3d91;padding:8px 12px;border-radius:20px;cursor:pointer}
+.filters button.active{background:#0b3d91;color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.course{border:1px solid #dbe3ee;border-radius:13px;padding:17px;background:#fff}
+.course h3{font-size:17px;margin:8px 0}.faculty{font-size:12px;color:#64748b}.code{display:inline-block;background:#eef5ff;color:#0b3d91;border-radius:6px;padding:4px 7px;font-weight:700;font-size:12px}
+.course button{width:100%;padding:11px;border:0;border-radius:8px;background:#0b3d91;color:#fff;font-weight:700;cursor:pointer;margin-top:10px}
+.small{font-size:13px;color:#64748b;line-height:1.5}
+label{display:block;font-weight:700;margin:15px 0 6px}.required::after{content:" *";color:#c62828}.required-note{background:#fff5f5;border:1px solid #f1c7c7;color:#8a1c1c;padding:10px;border-radius:8px;font-size:13px;margin:10px 0 15px}input,select,textarea{width:100%;padding:13px;border:1px solid #cbd5e1;border-radius:9px;font-size:16px}textarea{min-height:100px}
+.submit{width:100%;margin-top:20px;padding:14px;border:0;border-radius:9px;background:#0b3d91;color:#fff;font-size:17px;font-weight:700}
+.note{background:#eef5ff;padding:13px;border-radius:9px;margin-top:16px;font-size:13px;line-height:1.5}
+.success{display:none;background:#e8f7ee;color:#166534;padding:14px;border-radius:9px;margin-top:15px}
+.modal{display:none;position:fixed;inset:0;background:#0008;z-index:20;padding:20px;overflow:auto}
+.modalbox{max-width:650px;background:#fff;border-radius:15px;padding:24px;margin:40px auto}
+.close{float:right;border:0;background:#eee;border-radius:50%;width:35px;height:35px;cursor:pointer}
+footer{text-align:center;padding:25px;color:#64748b;font-size:13px}
+@media(max-width:600px){nav{justify-content:flex-start;overflow:auto}.hero,.card{padding:18px}}
+</style>
+</head>
+<body>
+<header><h1>Davis VU Application Assistant</h1><p>Find a programme and start your application assistance request</p></header>
+<nav><a href="#courses">Courses</a><a href="#apply">Apply</a><a href="#about">About Davis</a></nav>
+
+<div class="container">
+<section class="hero">
+<h2>Choose your course first 👇</h2>
+<p>Students can browse Victoria University programmes, tap a course to see available information, then tap <b>Start Application</b>. The selected course will automatically appear in the application form.</p>
+<div class="actions">
+<a class="whatsapp" href="https://wa.me/256731046756" target="_blank">WhatsApp Davis</a>
+<a class="call" href="tel:+256706279902">Call Davis</a>
+</div>
+</section>
+
+<section class="card" id="courses">
+<h2>Victoria University Programmes</h2>
+<p class="small">Programme names and codes below are based on Victoria University's current undergraduate programme listing. Always confirm current admission requirements and fees with Victoria University before enrolment.</p>
+<input class="search" id="search" placeholder="Search for Nursing, IT, Business, Law...">
+<div class="filters" id="filters"></div>
+<div class="grid" id="courseGrid"></div>
+</section>
+
+<section class="card" id="apply">
+<h2>Application Assistance</h2>
+<p class="small">Selected programme: <b id="selectedCourse">No course selected yet</b></p><p class="small">📎 Your profile photo and academic documents will be sent with this application request.</p><div class="required-note"><b>Fields marked with *</b> are mandatory and must be completed before submitting.</div>
+<form action="https://formspree.io/f/mnpnroej" method="POST" enctype="multipart/form-data" id="applicationForm">
+<input type="hidden" name="assisted_by" value="Davis Ssemakula">
+<input type="hidden" name="service" value="Victoria University application assistance">
+<label class="required">Title</label><select name="title" required><option value="">Select title</option><option>Mr</option><option>Mrs</option><option>Ms</option></select>
+<label class="required">Full Name</label><input name="full_name" type="text" required>
+<label class="required">Phone / WhatsApp</label><input name="phone" type="tel" required>
+<label class="required">Email</label><input name="email" type="email" required>
+<label class="required">Nationality</label><input name="nationality" type="text" placeholder="e.g. Ugandan" required>
+<label class="required">Country of Residence</label><input name="residence_country" type="text" placeholder="e.g. Uganda" required>
+<label class="required">Physical Address</label><input name="physical_address" type="text" placeholder="Village / Town / Street" required>
+<label class="required">Home District / State</label><input name="home_district" type="text" placeholder="e.g. Mukono" required>
+<label class="required">Profile Photo</label><input name="profile_photo" type="file" accept="image/jpeg,image/png,image/jpg" required>
+<p class="small">Upload a clear passport-style photo (JPG or PNG).</p>
+<label class="required">Programme</label><input id="programme" name="programme" type="text" required>
+<label class="required">Academic Documents</label><input name="academic_documents" type="file" accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg,image/png,image/jpg" multiple required>
+<p class="small">Select certificates, transcripts, results slips or other supporting academic documents.</p>
+<label class="required">Preferred Intake</label><select name="intake" required><option value="">Select intake</option><option>October Intake</option><option>November Intake</option><option>January Intake</option><option>May Intake</option><option>Other</option></select>
+<label class="required">Preferred Study Session</label><select id="studySession" name="study_session" required><option value="">Select session</option><option>Day</option><option>Evening</option><option>Weekend</option></select><p class="small" id="sessionHelp">Choose the study session available for your selected programme.</p>
+<label class="required">Education Level</label><select name="education_level" required><option value="">Select level</option><option>UCE / O-Level</option><option>UACE / A-Level</option><option>Diploma</option><option>Degree</option><option>Other</option></select>
+<label>Additional Information</label><textarea name="message" placeholder="Tell Davis anything else about your application..."></textarea>
+<label style="font-weight:400"><input type="checkbox" name="consent" value="I agree to be contacted about my application" required style="width:auto;margin-right:8px">I agree to be contacted about my application.</label>
+<div class="note"><b>Important:</b> This is an independent student application assistance service. It is not the official Victoria University website. Official admission decisions and applications are handled by Victoria University. By submitting, you agree that the information and documents provided may be used to assist with your application.</div>
+<button class="submit" type="submit">Submit Application Request</button>
+<div class="success" id="success">Application request received! Davis Ssemakula will contact you.</div>
+</form>
+</section>
+
+<section class="card" id="about">
+<h2>About Davis</h2>
+<p class="small">Davis Ssemakula provides independent assistance to students who want guidance with the Victoria University application process.</p>
+</section>
+</div>
+
+<div class="modal" id="modal"><div class="modalbox">
+<button class="close" onclick="closeModal()">×</button>
+<h2 id="modalTitle"></h2><p class="faculty" id="modalFaculty"></p>
+<p id="modalDuration"></p><p id="modalSummary"></p><p id="modalRequirements"></p>
+<button class="submit" onclick="startApplication()">Start Application</button>
+</div></div>
+
+<footer>Assisted by Davis Ssemakula • Independent student application assistance</footer>
+
+<script>
+const programmes=[["Faculty of Science and Technology", "Bachelor of Agriculture & Rural Innovation", "BAR"], ["Faculty of Science and Technology", "Bachelor of Information Technology", "BIT"], ["Faculty of Science and Technology", "Diploma in Information Technology", "DIT"], ["Faculty of Science and Technology", "Bachelor of Industrial Art and Innovative Design", "BID"], ["Faculty of Business and Management", "Diploma in Procurement and Logistics Management", "DPL"], ["Faculty of Business and Management", "Bachelor of Procurement and Logistics Management", "BPL"], ["Faculty of Business and Management", "Bachelor of Science in International Oil and Gas Management", "BOA"], ["Faculty of Business and Management", "Bachelor of Tourism and Hospitality Management", "BTH"], ["Faculty of Business and Management", "Bachelor of Events and Hospitality Management", "BEM"], ["Faculty of Business and Management", "Bachelor of Real Estate and Property Management", "BRE"], ["Faculty of Business and Management", "Bachelor of Hotel Management and Culinary Art", "BHM"], ["Faculty of Business and Management", "Diploma in Events Management", "DEM"], ["Faculty of Business and Management", "Diploma in Tourism and Hospitality Management", "DTH"], ["Faculty of Business and Management", "Diploma in Hotel Management and Culinary Art", "DHM"], ["Faculty of Business and Management", "Diploma in Real Estates and Property Management", "DRE"], ["Faculty of Business and Management", "Bachelor of Business Administration", "BBA"], ["Faculty of Business and Management", "Bachelor of International Business", "BIB"], ["Faculty of Business and Management", "Diploma in Business Administration", "DBA"], ["Faculty of Science and Technology", "Bachelor of Science in Visual Effects and Animation", "BAV"], ["Faculty of Business and Management", "Bachelor of Arts in Human Resource Management", "BHR"], ["Faculty of Science and Technology", "Diploma in Visual Effects and Animation", "DAV"], ["Faculty of Business and Management", "Bachelor of Business Administration- Accounting and Finance", "BAF"], ["Faculty of Science and Technology", "Bachelor of Science in Computer Science", "BCS"], ["Faculty of Humanities and Social Sciences", "Bachelor of Social Work and Social Administration", "BSW"], ["Faculty of Humanities and Social Sciences", "Bachelor of Public Administration and Management", "BPA"], ["Faculty of Humanities and Social Sciences", "Bachelor of Arts in Journalism and Media Studies", "BJM"], ["Faculty of Humanities and Social Sciences", "Bachelor of Arts in International Relations and Diplomatic Studies", "BIR"], ["Faculty of Humanities and Social Sciences", "Bachelor of Guidance and Counselling", "BGC"], ["Faculty of Humanities and Social Sciences", "Diploma in Social Work and Social Administration", "DSW"], ["Faculty of Humanities and Social Sciences", "Diploma in International Relations and Diplomatic Studies", "DIR"], ["School of Law", "Bachelor of Laws", "LLB"], ["Faculty of Health Sciences", "Bachelor of Nursing Science (Direct)", "BNS"], ["Faculty of Health Sciences", "Bachelor of Midwifery Science (Top Up)", "BMS"], ["Faculty of Health Sciences", "Bachelor of Nursing Science (Top Up)", "BNT"], ["Faculty of Health Sciences", "Bachelor of Science in Public Health", "BPH"], ["Faculty of Science and Technology", "Bachelor of Science in Software Engineering", "BSF"], ["Faculty of Business and Management", "Diploma in Human Resource Management", "DHR"], ["Faculty of Health Sciences", "Bachelor of Pharmacy", "BPC"], ["Faculty of Health Sciences", "Bachelor of Science in Human Nutrition and Dietetics", "BND"], ["Faculty of Science and Technology", "Diploma In Agriculture & Rural Innovation", "DAR"], ["Faculty of Business and Management", "Bachelor Of Science In Energy Economics And Finance", "BEF"], ["Faculty of Humanities and Social Sciences", "Diploma in Journalism and Media Studies", "DJM"], ["Institute of Education and Life-Long Learning", "Bachelor of Science in Education", "BSE"], ["Faculty of Humanities and Social Sciences", "Bachelor Of Arts In Music And Dance", "BMD"], ["Faculty of Humanities and Social Sciences", "Diploma In Music", "DMD"], ["Faculty of Humanities and Social Sciences", "Bachelor Of Film, Tv Production And Digital Media", "BFT"], ["Faculty of Science and Technology", "Bachelor Of Science In Cyber Security And Digital Forensics", "BCD"], ["Faculty of Science and Technology", "Bachelor Of Science In Artificial Intelligence And Data Science", "BAD"], ["Institute of Education and Life-Long Learning", "Bachelor Of Arts In Education-Inservice", "BAI"], ["Institute of Education and Life-Long Learning", "Bachelor Of Early Childhood Education (Inservice)", "BEI"], ["Institute of Education and Life-Long Learning", "Bachelor of Science in Education (Inservice)", "BSI"], ["Institute of Education and Life-Long Learning", "Bachelor of Early Childhood Education", "BEC"], ["Institute of Education and Life-Long Learning", "Bachelor Of Education-Primary", "BPE"], ["Institute of Education and Life-Long Learning", "Bachelor Of Education-Primary (Inservice)", "BPS"], ["Institute of Education and Life-Long Learning", "Bachelor of Arts in Education", "BAE"], ["Faculty of Science and Technology", "Bachelor of Science in Business Computing and Data Analytics", "BBC"]];
+const details={"BNS": {"duration": "4 years", "summary": "A professional nursing degree focused on nursing knowledge, clinical practice, critical thinking, ethics and patient care.", "requirements": "Victoria University states that direct entry considers UCE credits including English, Mathematics, Biology and Chemistry, plus UACE/equivalent requirements. Final eligibility is determined by the university."}, "BNT": {"duration": "2.5 years", "summary": "A Bachelor of Nursing Science top-up programme for eligible nursing diploma holders.", "requirements": "Victoria University lists diploma/registration and other qualification requirements; applicants should have their qualifications verified."}, "BPH": {"duration": "3 years", "summary": "A public-health degree covering health promotion, disease prevention and population health.", "requirements": "Victoria University lists relevant UCE/UACE or equivalent science requirements. Final eligibility is determined by the university."}, "BBA": {"duration": "3 years", "summary": "Business administration studies covering management and business practice.", "requirements": "Victoria University lists at least five UCE credits and two relevant UACE principal passes or equivalent for direct entry."}, "LLB": {"duration": "4 years", "summary": "A Bachelor of Laws programme covering legal knowledge and professional foundations.", "requirements": "Victoria University lists UCE English requirements and two UACE principal passes or equivalent for direct entry."}, "BSE": {"duration": "3 years", "summary": "A Bachelor of Science in Education programme combining science/education knowledge and teaching skills.", "requirements": "Victoria University lists UACE or equivalent with relevant principal passes, with related diploma pathways also available."}, "HEB": {"duration": "8 months", "summary": "A bridging programme designed to prepare eligible students for health-science undergraduate study.", "requirements": "Victoria University describes it as a pathway for A-level graduates, foreign students and eligible post-O-level health/biological-science backgrounds."}};
+const grid=document.getElementById('courseGrid'), search=document.getElementById('search'), filters=document.getElementById('filters');
+let facultyFilter='All', current=null;
+const faculties=['All',...new Set(programmes.map(p=>p[0]))];
+faculties.forEach(f=>{const b=document.createElement('button');b.textContent=f;b.className=f==='All'?'active':'';b.onclick=()=>{facultyFilter=f;document.querySelectorAll('.filters button').forEach(x=>x.classList.remove('active'));b.classList.add('active');render();};filters.appendChild(b);});
+function render(){
+ const q=search.value.toLowerCase();
+ grid.innerHTML='';
+ programmes.filter(p=>(facultyFilter==='All'||p[0]===facultyFilter)&&p[1].toLowerCase().includes(q)).forEach((p,i)=>{
+  const d=document.createElement('div');d.className='course';
+  d.innerHTML=`<span class="code">${p[2]}</span><h3>${p[1]}</h3><div class="faculty">${p[0]}</div><button>View & Start Application</button>`;
+  d.querySelector('button').onclick=()=>openCourse(i,p);
+  grid.appendChild(d);
+ });
+}
+function openCourse(i,p){
+ current=p;const d=details[p[2]]||{duration:'See official programme information',summary:'Programme information is subject to the university’s current offering and requirements.',requirements:'Please confirm the current entry requirements with Victoria University before applying.'};
+ document.getElementById('modalTitle').textContent=p[1];
+ document.getElementById('modalFaculty').textContent=p[0]+' • '+p[2];
+ document.getElementById('modalDuration').innerHTML='<b>Duration:</b> '+d.duration;
+ document.getElementById('modalSummary').innerHTML='<b>About:</b> '+d.summary;
+ document.getElementById('modalRequirements').innerHTML='<b>Entry requirements:</b> '+d.requirements;
+ document.getElementById('modal').style.display='block';
+}
+function closeModal(){document.getElementById('modal').style.display='none'}
+const sessionAvailability={
+  // Only programmes with verified course-specific session information are restricted here.
+  // Others keep the general Day/Evening/Weekend choices until their current timetable is confirmed.
+  BMS:["Weekend"],
+  BPH:["Day","Evening","Weekend"]
+};
+function setSessionsForCourse(code){
+  const select=document.getElementById("studySession");
+  const help=document.getElementById("sessionHelp");
+  const sessions=sessionAvailability[code] || ["Day","Evening","Weekend"];
+  select.innerHTML="<option value=\"\">Select session</option>"+sessions.map(x=>`<option value=\"${x}\">${x}</option>`).join("");
+  if(sessions.length===1){
+    select.value=sessions[0];
+    help.textContent="This programme currently has one configured study session: "+sessions[0]+".";
+  }else{
+    help.textContent="Select one of the study sessions available for this programme.";
+  }
+}
+function startApplication(){
+ document.getElementById('programme').value=current[1];
+ document.getElementById('selectedCourse').textContent=current[1];
+ setSessionsForCourse(current[2]);
+ closeModal();document.getElementById('apply').scrollIntoView({behavior:'smooth'});
+}
+search.addEventListener('input',render);render();
+
+document.getElementById('applicationForm').addEventListener('submit',async e=>{
+ const photo=document.querySelector('input[name="profile_photo"]');
+ const docs=document.querySelector('input[name="academic_documents"]');
+ if(photo.files.length && photo.files[0].size>25*1024*1024){e.preventDefault();alert('Profile photo must be 25 MB or smaller.');return;}
+ if(docs.files.length>7){e.preventDefault();alert('Please select a maximum of 7 academic documents.');return;}
+ for(const file of docs.files){if(file.size>25*1024*1024){e.preventDefault();alert('Each academic document must be 25 MB or smaller.');return;}}
+ e.preventDefault();const form=e.target,button=form.querySelector('.submit');button.disabled=true;button.textContent='Sending...';
+ try{const r=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{Accept:'application/json'}});
+ if(r.ok){form.reset();document.getElementById('programme').value='';document.getElementById('selectedCourse').textContent='No course selected yet';setSessionsForCourse('');document.getElementById('success').style.display='block';}
+ else alert('There was a problem sending the application. Please try again.');
+ }catch(err){alert('Please check your internet connection and try again.')}finally{button.disabled=false;button.textContent='Submit Application Request';}
+});
+</script>
+</body>
+</html>
