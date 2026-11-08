@@ -92,6 +92,10 @@ footer{background:var(--vu-navy);color:#c8d5e5;margin-top:35px}
 .vu-contact-band{display:flex;align-items:center;justify-content:space-between;gap:25px;padding:35px;background:#eaf0f7;margin:35px 0}.vu-contact-band h2{font-size:29px}.vu-contact-band p{color:#66758a;line-height:1.7;font-size:14px}.vu-contact-band>a{background:#0b3d78;color:white;text-decoration:none;padding:15px 19px;font-size:13px;font-weight:700;white-space:nowrap}
 @media(max-width:800px){.vu-home-hero{grid-template-columns:1fr}.vu-hero-copy{padding:38px 25px}.vu-hero-photo{min-height:260px}.vu-why{grid-template-columns:1fr;gap:22px;margin:40px 0}.vu-why-image{height:260px}.vu-benefits{grid-template-columns:1fr 1fr}.vu-ai-cards,.vu-block-grid{grid-template-columns:1fr}.vu-life-grid{grid-template-columns:1fr 1fr}.vu-life-grid .life-large{grid-column:1/-1}.vu-stats{grid-template-columns:1fr 1fr}.vu-news{grid-template-columns:1fr;gap:20px}.vu-contact-band{flex-direction:column;align-items:flex-start}.vu-section-title h2,.vu-why-copy h2{font-size:31px}}
 @media(max-width:480px){.vu-announcement{align-items:flex-start;flex-direction:column;gap:5px}.vu-benefits{grid-template-columns:1fr}.vu-life{padding:38px 18px}.vu-life-grid{grid-template-columns:1fr}.vu-life-grid .life-large{grid-column:auto}.vu-news-list{grid-template-columns:1fr}.vu-level-links{gap:10px}.vu-level-links a{font-size:10px}}
+
+.vu-programme-showcase{margin:65px 0 45px}.vu-programme-showcase .vu-section-title{margin-bottom:25px}.vu-programme-photos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.vu-programme-photos a{position:relative;display:block;height:220px;overflow:hidden;background:#071d3b;text-decoration:none}.vu-programme-photos img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s;opacity:.9}.vu-programme-photos a:hover img{transform:scale(1.05)}.vu-programme-photos a:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,#06172ee8)}.vu-programme-photos span{position:absolute;z-index:1;left:16px;right:12px;bottom:16px;color:white;font:19px Georgia,serif}.vu-programme-showcase+#courses{margin-top:20px}#courses{scroll-margin-top:85px}#courses .small{line-height:1.65}
+@media(max-width:800px){.vu-programme-photos{grid-template-columns:repeat(2,minmax(0,1fr))}.vu-programme-photos a{height:190px}}
+@media(max-width:480px){.vu-programme-photos{grid-template-columns:1fr 1fr;gap:9px}.vu-programme-photos a{height:155px}.vu-programme-photos span{font-size:15px;left:10px;bottom:11px}}
 </style>
 </head>
 <body>
@@ -115,6 +119,22 @@ footer{background:var(--vu-navy);color:#c8d5e5;margin-top:35px}
 <article><span>02</span><h3>Trimester system</h3><p>One module a month, smaller classes and focused learning.</p></article>
 <article><span>03</span><h3>Career readiness & employability</h3><p>Stand out and graduate ready for the world of work.</p></article>
 <article><span>04</span><h3>Flexible course delivery</h3><p>In-person and online classes. Never compromise on your education.</p></article>
+</section>
+<section class="vu-programme-showcase">
+  <div class="vu-section-title"><span class="vu-eyebrow dark">FIND YOUR PATH</span><h2>Explore Our Programmes</h2><p>Discover opportunities across health sciences, business, technology and other fields. Browse the programme catalogue below to find a course that matches your ambitions.</p></div>
+  <div class="vu-programme-photos">
+    <a href="#courses"><img src="https://victoriaug.live/__l5e/assets-v1/780ff2b1-4449-4c42-8ab5-876ed53681e4/vu-IMG-20260811-WA0140.jpg" alt="Victoria University students learning in a computer laboratory"><span>Technology & Innovation</span></a>
+    <a href="#courses"><img src="https://victoriaug.live/__l5e/assets-v1/f8ccf185-ed4e-4538-bd85-92fc4868487d/vu-IMG-20260811-WA0062.jpg" alt="Victoria University students collaborating on campus"><span>Business & Leadership</span></a>
+    <a href="#courses"><img src="https://victoriaug.live/__l5e/assets-v1/72c7ced1-0e2b-4934-8c28-a924fee80bc0/vu-IMG-20260811-WA0144.jpg" alt="Victoria University students during a learning session"><span>Health & Professional Studies</span></a>
+    <a href="#courses"><img src="https://victoriaug.live/__l5e/assets-v1/2fc0cf6c-f554-440b-bfa8-d74061a14da5/vu-IMG-20260811-WA0116.jpg" alt="Victoria University campus student activities"><span>Education & Community</span></a>
+  </div>
+</section>
+<section class="card" id="courses">
+<h2>Victoria University Programmes</h2>
+<p class="small">Programme names and codes below are based on Victoria University's current undergraduate programme listing. Always confirm current admission requirements and fees with Victoria University before enrolment.</p>
+<input class="search" id="search" placeholder="Search for Nursing, IT, Business, Law...">
+<div class="filters" id="levelFilters"></div><div class="filters" id="filters"></div>
+<div class="grid" id="courseGrid"></div>
 </section>
 <section class="vu-ai-section">
 <div class="vu-section-title"><span class="vu-eyebrow dark">AI POWERED LEARNING</span><h2>Victoria University leads Uganda's digital transformation.</h2><p>VU's programmes, platforms and partners are built for the intelligent economy.</p></div>
@@ -144,13 +164,7 @@ footer{background:var(--vu-navy);color:#c8d5e5;margin-top:35px}
 <div class="vu-news-list"><a href="https://victoriaug.live/news" target="_blank" rel="noopener"><span>12 JAN 2026 · CAREERS</span><b>Job Advertisements</b><small>Read the latest career announcements →</small></a><a href="https://victoriaug.live/news" target="_blank" rel="noopener"><span>26 NOV 2025 · CAREERS</span><b>Field Attachment Coordinators Needed</b><small>Read more →</small></a><a href="https://victoriaug.live/news" target="_blank" rel="noopener"><span>06 OCT 2025 · EVENTS</span><b>Our Bright Minds Set to Compete in the University Quiz</b><small>Read more →</small></a><a href="https://victoriaug.live/news" target="_blank" rel="noopener"><span>03 OCT 2025 · GRADUATION</span><b>Graduates to be Honoured at Grand Ceremony</b><small>Read more →</small></a><a class="all-news" href="https://victoriaug.live/news" target="_blank" rel="noopener">View all news & events ↗</a></div>
 </section>
 <section class="vu-contact-band"><div><span class="vu-eyebrow">NEED MORE INFORMATION?</span><h2>Take the next step in your academic journey.</h2><p>Need guidance exploring programmes or preparing your application? Davis is available to help.</p></div><a href="https://wa.me/256731046756" target="_blank" rel="noopener">Talk to Davis on WhatsApp ↗</a></section>
-<section class="card" id="courses">
-<h2>Victoria University Programmes</h2>
-<p class="small">Programme names and codes below are based on Victoria University's current undergraduate programme listing. Always confirm current admission requirements and fees with Victoria University before enrolment.</p>
-<input class="search" id="search" placeholder="Search for Nursing, IT, Business, Law...">
-<div class="filters" id="levelFilters"></div><div class="filters" id="filters"></div>
-<div class="grid" id="courseGrid"></div>
-</section>
+
 
 <section class="card" id="apply" style="display:none">
 <h2>Application Assistance</h2>
