@@ -222,6 +222,27 @@ html{scroll-behavior:smooth;scroll-padding-top:88px}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
 
 </style>
+
+<style id="screenshot-layout-refinements">
+/* Match the supplied reference: keep the university crest completely visible. */
+.reference-header{min-height:88px;padding:10px clamp(16px,3vw,34px);gap:16px}
+.reference-brand{min-width:0;gap:14px}
+.reference-mark{width:72px!important;height:72px!important;min-width:72px;flex:0 0 72px;display:flex!important;align-items:center;justify-content:center;overflow:visible!important}
+.reference-mark img{width:100%!important;height:100%!important;max-width:100%;max-height:100%;object-fit:contain!important;object-position:center!important;display:block}
+.reference-brand-name{line-height:1.15}
+.reference-hero{min-height:calc(100svh - 88px)!important}
+.reference-copy{max-width:1240px}
+.vu-badge-crop{width:82px;height:54px;flex-basis:82px;overflow:visible!important}
+.vu-badge-crop img{width:100%;height:100%;object-fit:contain!important;object-position:center}
+.course-photo{width:100%;height:190px;object-fit:cover;object-position:center}
+@media(max-width:700px){
+ .reference-header{min-height:76px;padding:8px 14px}
+ .reference-mark{width:58px!important;height:58px!important;min-width:58px;flex-basis:58px}
+ .reference-hero{min-height:calc(100svh - 76px)!important}
+ .reference-brand{gap:10px}
+ .reference-brand-name{font-size:18px}
+}
+</style>
 </head>
 <body>
 <header class="reference-header">
@@ -482,6 +503,12 @@ function render(){
  matches.forEach(p=>{
   const d=document.createElement('div');d.className='course';
   d.innerHTML='<img class="course-photo" src="'+imageForProgramme(p)+'" alt="'+p[1]+' — related study and professional field" loading="lazy"><div class="explorer-card-top"><span>VICTORIA UNIVERSITY</span><span class="vu-badge-crop"><img src="'+vuCrest+'" alt="VU crest" loading="lazy"></span></div><div class="course-content"><span class="code">'+p[2]+'</span><h3>'+p[1]+'</h3><div class="faculty">'+p[0]+' · '+(p[3]||'Undergraduate')+'</div><button type="button">View Programme Details →</button></div>';
+  const coursePhoto=d.querySelector('.course-photo');
+  coursePhoto.addEventListener('error',function(){
+   if(this.dataset.fallbackApplied==='true')return;
+   this.dataset.fallbackApplied='true';
+   this.src=imageForSector(p[0]);
+  });
   d.querySelector('button').onclick=()=>openCourse(programmes.indexOf(p),p);
   grid.appendChild(d);
  });
