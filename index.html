@@ -136,6 +136,19 @@ footer{text-align:center;padding:25px;color:#64748b;font-size:13px}
 .course-content{padding:15px 18px 0}
 .course-content button{margin-top:12px}
 @media(max-width:600px){.category-choice img,.sector-choice img{height:155px}.course-photo{height:190px}}
+
+/* Admissions application guidance and progress */
+.application-progress{background:#f7f9fc;border:1px solid #e1e8f0;border-radius:10px;padding:16px;margin:18px 0 22px}
+.application-progress-top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px;color:#17345d;font-size:13px;font-weight:700}
+.application-progress-track{height:9px;border-radius:20px;background:#e1e8f0;overflow:hidden}
+.application-progress-fill{height:100%;width:0;background:linear-gradient(90deg,#0b3d91,#d6ad57);transition:width .2s ease}
+.application-stages{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.application-stage{font-size:11px;color:#77859a;text-align:center;padding:7px 3px;border-radius:6px;background:#edf1f6}
+.application-stage.active{background:#e8f0ff;color:#0b3d91;font-weight:700}
+.application-stage.done{background:#e8f7ee;color:#166534;font-weight:700}
+.reference-number{font-weight:800;letter-spacing:.04em;display:block;margin-top:7px}
+.file-guidance{background:#fff8e8;border:1px solid #f0dfb5;color:#6c531c;padding:11px 13px;border-radius:8px;font-size:12px;line-height:1.5;margin:12px 0}
+@media(max-width:520px){.application-stages{grid-template-columns:repeat(2,1fr)}.application-progress-top{align-items:flex-start;flex-direction:column}}
 </style>
 <style>
 :root{--vu-navy:#071d3b;--vu-blue:#0b3d91;--vu-gold:#d6ad57;--ink:#18263b;--muted:#66758a;--paper:#f4f7fb}
@@ -346,9 +359,15 @@ html{scroll-behavior:smooth;scroll-padding-top:88px}
 <section class="card" id="apply" style="display:none">
 <h2>Application Assistance</h2>
 <p class="small">Selected programme: <b id="selectedCourse">No course selected yet</b></p><p class="small">📎 Your profile photo and academic documents will be sent with this application request.</p><div class="required-note"><b>Fields marked with *</b> are mandatory and must be completed before submitting.</div>
+<div class="application-progress" id="applicationProgress" aria-live="polite">
+ <div class="application-progress-top"><span>Application completion</span><span id="applicationProgressText">0% complete</span></div>
+ <div class="application-progress-track"><div class="application-progress-fill" id="applicationProgressFill"></div></div>
+ <div class="application-stages"><div class="application-stage" data-stage="0">1. Personal details</div><div class="application-stage" data-stage="1">2. Academic details</div><div class="application-stage" data-stage="2">3. Documents</div><div class="application-stage" data-stage="3">4. Submission</div></div>
+</div>
+<div class="file-guidance"><b>Before uploading:</b> Use clear scans or photos. Each file must be 25 MB or smaller. You can attach up to 7 academic documents and up to 2 passport photographs.</div>
 <form action="https://formspree.io/f/mnpnroej" method="POST" enctype="multipart/form-data" id="applicationForm">
 <input type="hidden" name="assisted_by" value="Davis Ssemakula">
-<input type="hidden" name="service" value="Victoria University application assistance">
+<input type="hidden" name="service" value="Victoria University application assistance">\n<input type="hidden" name="application_reference" id="applicationReferenceField" value="">
 <label class="required">Title</label><select name="title" required><option value="">Select title</option><option>Mr</option><option>Mrs</option><option>Ms</option></select>
 <label class="required">Full Name</label><input name="full_name" type="text" required>
 <label class="required">Phone / WhatsApp</label><input name="phone" type="tel" required>
@@ -369,7 +388,7 @@ html{scroll-behavior:smooth;scroll-padding-top:88px}
 <label style="font-weight:400"><input type="checkbox" name="consent" value="I agree to be contacted about my application" required style="width:auto;margin-right:8px">I agree to be contacted about my application.</label>
 <div class="note"><b>Important:</b> This is an independent student application assistance service. It is not the official Victoria University website. Official admission decisions and applications are handled by Victoria University. By submitting, you agree that the information and documents provided may be used to assist with your application.</div>
 <button class="submit" type="submit">Submit Application Request</button>
-<div class="success" id="success">Application request received! Davis Ssemakula will contact you.</div>
+<div class="success" id="success">Application request received! Davis Ssemakula will contact you.<span class="reference-number" id="successReference"></span><p class="small">Keep this reference number when following up about your application assistance request.</p></div>
 </form>
 </section>
 
@@ -587,17 +606,54 @@ function startApplication(){
 }
 search.addEventListener('input',render);render();
 
-document.getElementById('applicationForm').addEventListener('submit',async e=>{
- const photo=document.querySelector('input[name="profile_photo"]');
- const docs=document.querySelector('input[name="academic_documents"]');
- if(photo.files.length && photo.files[0].size>25*1024*1024){e.preventDefault();alert('Profile photo must be 25 MB or smaller.');return;}
- if(docs.files.length>7){e.preventDefault();alert('Please select a maximum of 7 academic documents.');return;}
- for(const file of docs.files){if(file.size>25*1024*1024){e.preventDefault();alert('Each academic document must be 25 MB or smaller.');return;}}
- e.preventDefault();const form=e.target,button=form.querySelector('.submit');button.disabled=true;button.textContent='Sending...';
- try{const r=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{Accept:'application/json'}});
- if(r.ok){form.reset();document.getElementById('programme').value='';document.getElementById('selectedCourse').textContent='No course selected yet';setSessionsForCourse('');document.getElementById('success').style.display='block';}
- else alert('There was a problem sending the application. Please try again.');
- }catch(err){alert('Please check your internet connection and try again.')}finally{button.disabled=false;button.textContent='Submit Application Request';}
+const applicationForm=document.getElementById('applicationForm');
+function updateApplicationProgress(){
+ const required=[...applicationForm.querySelectorAll('[required]')].filter(el=>el.type!=='checkbox'||el.checked);
+ const total=applicationForm.querySelectorAll('[required]').length;
+ const complete=[...applicationForm.querySelectorAll('[required]')].filter(el=>{
+  if(el.type==='checkbox')return el.checked;
+  if(el.type==='file')return el.files&&el.files.length>0;
+  return String(el.value||'').trim().length>0;
+ }).length;
+ const pct=total?Math.round(complete/total*100):0;
+ document.getElementById('applicationProgressFill').style.width=pct+'%';
+ document.getElementById('applicationProgressText').textContent=pct+'% complete';
+ const stages=[...document.querySelectorAll('.application-stage')];
+ const stage=pct===100?3:pct>=65?2:pct>=35?1:0;
+ stages.forEach((el,i)=>{el.classList.toggle('active',i===stage);el.classList.toggle('done',i<stage);});
+}
+applicationForm.addEventListener('input',updateApplicationProgress);
+applicationForm.addEventListener('change',updateApplicationProgress);
+updateApplicationProgress();
+applicationForm.addEventListener('submit',async e=>{
+ e.preventDefault();
+ const form=e.target,button=form.querySelector('button[type="submit"]');
+ const allFiles=[...form.querySelectorAll('input[type="file"]')];
+ for(const input of allFiles){
+  const maxCount=input.name==='academic_documents'?7:input.name==='passport_photos'?2:1;
+  if(input.files.length>maxCount){alert('Please select no more than '+maxCount+' file(s) for '+input.name.replaceAll('_',' ')+'.');return;}
+  for(const file of input.files){if(file.size>25*1024*1024){alert(file.name+' is larger than 25 MB. Please choose a smaller file.');return;}}
+ }
+ const ref='VU-DAV-'+new Date().getFullYear()+'-'+Math.random().toString(36).slice(2,8).toUpperCase();
+ document.getElementById('applicationReferenceField').value=ref;
+ button.disabled=true;button.textContent='Sending application request...';
+ try{
+  const response=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{Accept:'application/json'}});
+  if(response.ok){
+   document.getElementById('successReference').textContent='Reference: '+ref;
+   document.getElementById('success').style.display='block';
+   form.reset();document.getElementById('programme').value='';
+   document.getElementById('selectedCourse').textContent='No course selected yet';
+   setSessionsForCourse('');
+   document.getElementById('applicationProgressFill').style.width='0%';
+   document.getElementById('applicationProgressText').textContent='0% complete';
+   document.querySelectorAll('.application-stage').forEach((el,i)=>{el.classList.toggle('active',i===0);el.classList.remove('done');});
+   document.getElementById('success').scrollIntoView({behavior:'smooth',block:'center'});
+  }else{
+   alert('There was a problem sending the application. Your information has not been confirmed as submitted. Please try again.');
+  }
+ }catch(err){alert('Please check your internet connection and try again.')}
+ finally{button.disabled=false;button.textContent='Submit Application Request';}
 });
 </script>
 
