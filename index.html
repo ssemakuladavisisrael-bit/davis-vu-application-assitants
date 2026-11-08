@@ -119,6 +119,23 @@ footer{text-align:center;padding:25px;color:#64748b;font-size:13px}
 #programmeStage .programme-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 #programmeStage .explorer-subtitle{margin:12px 0}
 @media(max-width:600px){.category-grid,.sector-grid{grid-template-columns:1fr}.category-choice,.sector-choice{min-height:115px}}
+
+/* Victoria University crest and relevant programme photography */
+.reference-mark{overflow:hidden;background:#fff!important;border:0!important;border-radius:10px 10px 16px 16px!important;padding:3px;box-shadow:0 2px 8px #0d1b3e20}
+.reference-mark img{display:block;width:100%;height:100%;object-fit:contain;border-radius:7px}
+.category-choice,.sector-choice{position:relative;overflow:hidden;padding:0 0 18px!important}
+.category-choice img,.sector-choice img{display:block;width:100%;height:142px;object-fit:cover;background:#e8edf4}
+.category-choice strong,.sector-choice strong{padding:0 17px}
+.category-choice span,.sector-choice span{padding:0 17px}
+.category-choice em,.sector-choice em{padding:0 17px}
+.explorer-card-top{display:flex;align-items:center;justify-content:space-between;padding:10px 15px 0}
+.explorer-card-top img{width:29px;height:29px;object-fit:contain;border-radius:5px}
+.explorer-card-top span{font-size:10px;font-weight:800;letter-spacing:.08em;color:#9b2734}
+.course{overflow:hidden;padding:0 0 18px!important}
+.course-photo{display:block;width:100%;height:155px;object-fit:cover;background:#e8edf4}
+.course-content{padding:15px 18px 0}
+.course-content button{margin-top:12px}
+@media(max-width:600px){.category-choice img,.sector-choice img{height:155px}.course-photo{height:180px}}
 </style>
 <style>
 :root{--vu-navy:#071d3b;--vu-blue:#0b3d91;--vu-gold:#d6ad57;--ink:#18263b;--muted:#66758a;--paper:#f4f7fb}
@@ -209,7 +226,7 @@ html{scroll-behavior:smooth;scroll-padding-top:88px}
 <body>
 <header class="reference-header">
   <a class="reference-brand" href="#" aria-label="Davis VU Application Assistant home">
-    <span class="reference-mark" aria-hidden="true">VU</span>
+    <span class="reference-mark"><img src="https://www.yellow.ug/img/ug/k/1710920149-25-victoria-university-vu.jpg" alt="Victoria University Kampala crest"></span>
     <span class="reference-brand-name">Victoria <b>University</b></span>
   </a>
   <button class="reference-menu-btn" id="referenceMenuBtn" type="button" aria-expanded="false" aria-controls="referenceNav">
@@ -368,6 +385,34 @@ const levelDescriptions={
  'Academic Upgrading':'Academic pathway and upgrading programmes.',
  'Short Courses':'Short-term, continuing and professional learning.'
 };
+const vuCrest='https://www.yellow.ug/img/ug/k/1710920149-25-victoria-university-vu.jpg';
+const vuImages={
+ science:'https://victoriaug.live/__l5e/assets-v1/780ff2b1-4449-4c42-8ab5-876ed53681e4/vu-IMG-20260811-WA0140.jpg',
+ business:'https://victoriaug.live/__l5e/assets-v1/f8ccf185-ed4e-4538-bd85-92fc4868487d/vu-IMG-20260811-WA0062.jpg',
+ health:'https://victoriaug.live/__l5e/assets-v1/72c7ced1-0e2b-4934-8c28-a924fee80bc0/vu-IMG-20260811-WA0144.jpg',
+ humanities:'https://victoriaug.live/__l5e/assets-v1/2fc0cf6c-f554-440b-bfa8-d74061a14da5/vu-IMG-20260811-WA0116.jpg',
+ education:'https://victoriaug.live/__l5e/assets-v1/1e19b0ce-007d-4e52-81da-73d8f5321cf6/vu-IMG-20260811-WA0057.jpg',
+ technical:'https://victoriaug.live/__l5e/assets-v1/ec337760-7660-48c1-b54e-4d0d80a5e937/vu-IMG-20260811-WA0064.jpg',
+ languages:'https://victoriaug.live/__l5e/assets-v1/13ce79c4-28bc-452b-b100-ce091ee80763/vu-IMG-20260811-WA0095.jpg'
+};
+function imageForSector(sector){
+ const f=String(sector).toLowerCase();
+ if(f.includes('health'))return vuImages.health;
+ if(f.includes('business')||f.includes('management'))return vuImages.business;
+ if(f.includes('science')||f.includes('technology'))return vuImages.science;
+ if(f.includes('humanities')||f.includes('social'))return vuImages.humanities;
+ if(f.includes('education'))return vuImages.education;
+ if(f.includes('law'))return vuImages.humanities;
+ if(f.includes('technical'))return vuImages.technical;
+ if(f.includes('language'))return vuImages.languages;
+ return vuImages.education;
+}
+function imageForLevel(level){
+ if(level==='Postgraduate')return vuImages.business;
+ if(level==='Academic Upgrading')return vuImages.technical;
+ if(level==='Short Courses')return vuImages.languages;
+ return vuImages.science;
+}
 function openExplorer(level='All'){
  explorer.style.display='block';
  categoryStage.style.display=level==='All'?'block':'none';
@@ -386,7 +431,7 @@ function buildCategories(){
  Object.entries(levelDescriptions).forEach(([level,description])=>{
   const count=programmes.filter(p=>(p[3]||'Undergraduate')===level).length;
   const card=document.createElement('button');card.type='button';card.className='category-choice';
-  card.innerHTML='<strong>'+level+'</strong><span>'+description+'</span><em>'+count+' programme'+(count===1?'':'s')+'</em>';
+  card.innerHTML='<img src="'+imageForLevel(level)+'" alt="Victoria University '+level+' students and learning environment" loading="lazy"><div class="explorer-card-top"><span>VICTORIA UNIVERSITY</span><img src="'+vuCrest+'" alt="VU crest" loading="lazy"></div><strong>'+level+'</strong><span>'+description+'</span><em>'+count+' programme'+(count===1?'':'s')+'</em>';
   card.addEventListener('click',()=>{levelFilter=level;showSectors();});
   categoryGrid.appendChild(card);
  });
@@ -401,7 +446,7 @@ function showSectors(){
  sectors.forEach(sector=>{
   const count=matches.filter(p=>p[0]===sector).length;
   const card=document.createElement('button');card.type='button';card.className='sector-choice';
-  card.innerHTML='<strong>'+sector+'</strong><span>Explore programmes in this area</span><em>'+count+' programme'+(count===1?'':'s')+'</em>';
+  card.innerHTML='<img src="'+imageForSector(sector)+'" alt="'+sector+' at Victoria University" loading="lazy"><div class="explorer-card-top"><span>VU · '+levelFilter.toUpperCase()+'</span><img src="'+vuCrest+'" alt="VU crest" loading="lazy"></div><strong>'+sector+'</strong><span>Explore programmes in this area</span><em>'+count+' programme'+(count===1?'':'s')+'</em>';
   card.addEventListener('click',()=>showProgrammes(sector));
   sectorGrid.appendChild(card);
  });
@@ -417,7 +462,7 @@ function render(){
  const matches=programmes.filter(p=>(facultyFilter==='All'||p[0]===facultyFilter)&&(levelFilter==='All'||(p[3]||'Undergraduate')===levelFilter)&&p[1].toLowerCase().includes(q));
  matches.forEach(p=>{
   const d=document.createElement('div');d.className='course';
-  d.innerHTML='<span class="code">'+p[2]+'</span><h3>'+p[1]+'</h3><div class="faculty">'+p[0]+' · '+(p[3]||'Undergraduate')+'</div><button type="button">View Programme Details →</button>';
+  d.innerHTML='<img class="course-photo" src="'+imageForSector(p[0])+'" alt="'+p[1]+' — Victoria University learning environment" loading="lazy"><div class="explorer-card-top"><span>VICTORIA UNIVERSITY</span><img src="'+vuCrest+'" alt="VU crest" loading="lazy"></div><div class="course-content"><span class="code">'+p[2]+'</span><h3>'+p[1]+'</h3><div class="faculty">'+p[0]+' · '+(p[3]||'Undergraduate')+'</div><button type="button">View Programme Details →</button></div>';
   d.querySelector('button').onclick=()=>openCourse(programmes.indexOf(p),p);
   grid.appendChild(d);
  });
