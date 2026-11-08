@@ -28,8 +28,7 @@ label{display:block;font-weight:700;margin:15px 0 6px}.required::after{content:"
 .submit{width:100%;margin-top:20px;padding:14px;border:0;border-radius:9px;background:#0b3d91;color:#fff;font-size:17px;font-weight:700}
 .note{background:#eef5ff;padding:13px;border-radius:9px;margin-top:16px;font-size:13px;line-height:1.5}
 .success{display:none;background:#e8f7ee;color:#166534;padding:14px;border-radius:9px;margin-top:15px}
-.modal{display:none;position:fixed;inset:0;background:#0008;z-index:20;padding:20px;overflow:auto}
-.modalbox{max-width:650px;background:#fff;border-radius:15px;padding:24px;margin:40px auto}
+.modal{display:none;position:fixed;inset:0;background:#f4f7fb;z-index:20;padding:0;overflow:auto}.modalbox{width:100%;max-width:1000px;min-height:100vh;background:#f4f7fb;border-radius:0;padding:22px 18px 40px;margin:0 auto}.detail-header{background:#fff;border-radius:16px;padding:18px 20px;margin:12px 0 18px;box-shadow:0 4px 18px #0000000d}.detail-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.detail-top .submit{width:auto;min-width:150px;margin:0;padding:12px 20px}.detail-main-title{font-size:25px;margin:14px 0 5px}.detail-intro{background:#fff;padding:15px 18px;border-radius:12px}.detail-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}.detail-section{background:#fff;padding:18px}.detail-section h3{font-size:17px}.back-label{color:#0b3d91;font-weight:700;font-size:14px}
 .close{float:right;border:0;background:#eee;border-radius:50%;width:35px;height:35px;cursor:pointer}
 footer{text-align:center;padding:25px;color:#64748b;font-size:13px}
 @media(max-width:600px){nav{justify-content:flex-start;overflow:auto}.hero,.card{padding:18px}}
@@ -97,9 +96,9 @@ footer{text-align:center;padding:25px;color:#64748b;font-size:13px}
 
 <div class="modal" id="modal"><div class="modalbox">
 <button class="close" onclick="closeModal()" aria-label="Close">×</button>
-<h2 id="modalTitle"></h2><p class="faculty" id="modalFaculty"></p>
+<div class="detail-header"><div class="detail-top"><span class="back-label">← Programme information</span><button class="submit" onclick="startApplication()">Apply Now</button></div><h2 class="detail-main-title" id="modalTitle"></h2><p class="faculty" id="modalFaculty"></p></div>
 <div id="programmeDetails"></div>
-<button class="submit" onclick="startApplication()">Start Application</button>
+<button class="submit" onclick="startApplication()">Apply Now</button>
 </div></div>
 
 <footer>Assisted by Davis Ssemakula • Independent student application assistance</footer>
