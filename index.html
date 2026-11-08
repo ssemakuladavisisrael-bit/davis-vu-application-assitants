@@ -34,7 +34,21 @@ footer{text-align:center;padding:25px;color:#64748b;font-size:13px}
 @media(max-width:600px){nav{justify-content:flex-start;overflow:auto}.hero,.card{padding:18px}}
 
 .detail-intro{line-height:1.6;color:#475569}.detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:16px 0}.detail-section{background:#f7f9fc;border:1px solid #e2e8f0;border-radius:11px;padding:14px}.detail-section h3{margin:0 0 9px;color:#0b3d91;font-size:16px}.detail-section p,.detail-section li{font-size:14px;line-height:1.55;color:#334155}.detail-section ul{padding-left:19px;margin:8px 0}.fee-table{width:100%;border-collapse:collapse;font-size:14px}.fee-table td{padding:8px;border-bottom:1px solid #e2e8f0}.fee-table td:last-child{text-align:right;font-weight:700}.official-link{display:inline-block;margin:8px 0;color:#0b3d91;font-weight:700}.fee-note{font-size:12px;color:#64748b;line-height:1.5}.modalbox{max-width:820px}.modalbox .submit{margin-top:15px}
- .vu-hero-video{position:relative;isolation:isolate;overflow:hidden;background-position:center;background-size:cover}.vu-hero-video iframe{display:block;position:absolute;inset:0;width:100%;height:100%;min-width:100%;min-height:100%;border:0;z-index:1;pointer-events:none}.vu-hero-video:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,20,42,.08),rgba(4,20,42,.55));z-index:2;pointer-events:none}.vu-hero-video .vu-photo-caption{z-index:3}</style>
+ .vu-hero-video{position:relative;isolation:isolate;overflow:hidden;background-position:center;background-size:cover}.vu-hero-video iframe{display:block;position:absolute;inset:0;width:100%;height:100%;min-width:100%;min-height:100%;border:0;z-index:1;pointer-events:none}.vu-hero-video:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,20,42,.08),rgba(4,20,42,.55));z-index:2;pointer-events:none}.vu-hero-video .vu-photo-caption{z-index:3}
+/* Full-width VU-inspired opening screen: video behind the hero content */
+.vu-home-hero.vu-full-hero{position:relative;display:flex;align-items:center;width:100vw;left:50%;transform:translateX(-50%);min-height:min(690px,calc(100svh - 120px));margin:0;overflow:hidden;background:#061b36;isolation:isolate}
+.vu-full-video{position:absolute;inset:0;z-index:-2;min-height:100%;background:#061b36 url('https://s3.us-east-1.amazonaws.com/victoria-university-elearning/website/images/intro_section_banner/487728ba-e0a1-4c7e-877f-df6e42e1ad86.jpg') center/cover no-repeat}
+.vu-full-video iframe{position:absolute;top:50%;left:50%;width:177.78vh;height:100%;min-width:100%;min-height:56.25vw;transform:translate(-50%,-50%);border:0;pointer-events:none}
+.vu-full-overlay{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(3,17,39,.91) 0%,rgba(3,17,39,.72) 48%,rgba(3,17,39,.28) 100%),linear-gradient(0deg,rgba(3,17,39,.38),transparent 55%)}
+.vu-full-copy{position:relative;z-index:1;width:min(1160px,100%);margin:0 auto;padding:76px 34px 82px;align-items:flex-start}
+.vu-full-copy h2{font-size:clamp(54px,7vw,88px);max-width:720px}
+.vu-full-copy>p{max-width:650px;font-size:17px;color:#f1f5fa}
+.vu-full-copy .vu-hero-actions{margin:24px 0 18px}
+.vu-full-copy .gold-btn,.vu-full-copy .outline-btn{border-radius:3px;padding:15px 21px}
+.vu-full-copy .vu-level-links{gap:22px}
+@media(max-width:800px){.vu-home-hero.vu-full-hero{min-height:650px}.vu-full-copy{padding:65px 24px}.vu-full-copy h2{font-size:clamp(48px,12vw,68px)}.vu-full-video iframe{width:177.78vh;height:100%;min-height:56.25vw}}
+@media(max-width:480px){.vu-home-hero.vu-full-hero{min-height:680px}.vu-full-copy{padding:52px 20px}.vu-full-copy>p{font-size:15px}.vu-full-copy .vu-hero-actions{gap:9px}.vu-full-copy .gold-btn,.vu-full-copy .outline-btn{font-size:12px;padding:12px 14px}}
+</style>
 <style>
 :root{--vu-navy:#071d3b;--vu-blue:#0b3d91;--vu-gold:#d6ad57;--ink:#18263b;--muted:#66758a;--paper:#f4f7fb}
 body{font-family:Arial,Helvetica,sans-serif;background:#f4f6fa;color:var(--ink)}
@@ -127,9 +141,10 @@ html{scroll-behavior:smooth;scroll-padding-top:88px}
 <nav class="main-nav" aria-label="Main navigation"><a href="#courses">Explore Programmes</a><a href="#vu-life">Campus Life</a><a href="#contact">Admissions Support</a><a href="#about">About Davis</a><a href="https://victoriaug.live/" target="_blank" rel="noopener">Official VU Website ↗</a></nav>
 
 <div class="container">
-<section class="vu-home-hero">
-<div class="vu-hero-copy"><span class="vu-eyebrow">EXPLORE YOUR PATH</span><h2>The Future<br>is <em>Here.</em></h2><p>Experience a world-class transformative university education you deserve. Applications are open for all programme levels.</p><div class="vu-hero-actions"><a href="#courses" class="gold-btn">Explore Programmes</a><a href="https://victoriaug.live/" target="_blank" rel="noopener" class="outline-btn">Official VU Website ↗</a></div><div class="vu-level-links"><a href="#courses">Undergraduate</a><a href="#courses">Postgraduate</a><a href="#courses">Academic Upgrading</a><a href="#courses">Continuing Education</a></div></div>
-<div class="vu-hero-photo vu-hero-video"><iframe src="https://www.youtube.com/embed/ggSpCwKMw-8?autoplay=1&mute=1&controls=0&loop=1&playlist=ggSpCwKMw-8&playsinline=1&rel=0&modestbranding=1" title="Victoria University tribute to Prof. Lawrence Muganga" aria-label="Victoria University video featuring Prof. Lawrence Muganga" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="eager"></iframe><div class="vu-video-shade"></div><div class="vu-photo-caption"><span>VICTORIA UNIVERSITY · KAMPALA</span><strong>Leadership. Innovation. The Future.</strong></div></div>
+<section class="vu-home-hero vu-full-hero">
+<div class="vu-hero-video vu-full-video" aria-hidden="true"><iframe src="https://www.youtube.com/embed/ggSpCwKMw-8?autoplay=1&mute=1&controls=0&loop=1&playlist=ggSpCwKMw-8&playsinline=1&rel=0&modestbranding=1" title="Victoria University video featuring Prof. Lawrence Muganga" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="eager" tabindex="-1"></iframe></div>
+<div class="vu-full-overlay"></div>
+<div class="vu-hero-copy vu-full-copy"><span class="vu-eyebrow">EXPLORE YOUR PATH</span><h2>The Future<br>is <em>Here.</em></h2><p>Experience a world-class transformative university education you deserve. Applications are now open for all programme levels.</p><div class="vu-hero-actions"><a href="#courses" class="gold-btn">Apply Now</a><a href="#courses" class="outline-btn">Explore Programmes</a><a href="https://victoriaug.live/ai/career-match" target="_blank" rel="noopener" class="outline-btn">Find My Programme ↗</a></div><div class="vu-level-links"><a href="#courses">Undergraduate</a><a href="#courses">Postgraduate</a><a href="#courses">Academic Upgrading</a><a href="#courses">Continuing Education</a></div></div>
 </section>
 <section class="vu-announcement"><span>ANNOUNCEMENT</span><p><b>Applications are OPEN</b> — March, July & October intakes, Undergraduate, Postgraduate, Academic Upgrading and Short Courses. <a href="#courses">Explore programmes →</a></p></section>
 
