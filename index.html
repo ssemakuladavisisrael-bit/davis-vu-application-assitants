@@ -37,9 +37,9 @@ footer{text-align:center;padding:25px;color:#64748b;font-size:13px}
  .vu-hero-video{position:relative;isolation:isolate;overflow:hidden;background-position:center;background-size:cover}.vu-hero-video iframe{display:block;position:absolute;inset:0;width:100%;height:100%;min-width:100%;min-height:100%;border:0;z-index:1;pointer-events:none}.vu-hero-video:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,20,42,.08),rgba(4,20,42,.55));z-index:2;pointer-events:none}.vu-hero-video .vu-photo-caption{z-index:3}
 /* Full-width VU-inspired opening screen: video behind the hero content */
 .vu-home-hero.vu-full-hero{position:relative;display:flex;align-items:center;width:100vw;left:50%;transform:translateX(-50%);min-height:min(690px,calc(100svh - 120px));margin:0;overflow:hidden;background:#061b36;isolation:isolate}
-.vu-full-video{position:absolute;inset:0;z-index:-2;min-height:100%;background:#061b36 url('https://s3.us-east-1.amazonaws.com/victoria-university-elearning/website/images/intro_section_banner/487728ba-e0a1-4c7e-877f-df6e42e1ad86.jpg') center/cover no-repeat}
-.vu-full-overlay{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(3,17,39,.91) 0%,rgba(3,17,39,.72) 48%,rgba(3,17,39,.28) 100%),linear-gradient(0deg,rgba(3,17,39,.38),transparent 55%)}
-.vu-full-copy{position:relative;z-index:1;width:min(1160px,100%);margin:0 auto;padding:76px 34px 82px;align-items:flex-start}
+.vu-full-video{position:absolute;inset:0;z-index:0;min-height:100%;background:#061b36 url('https://s3.us-east-1.amazonaws.com/victoria-university-elearning/website/images/intro_section_banner/487728ba-e0a1-4c7e-877f-df6e42e1ad86.jpg') center/cover no-repeat}
+.vu-full-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(3,17,39,.91) 0%,rgba(3,17,39,.72) 48%,rgba(3,17,39,.28) 100%),linear-gradient(0deg,rgba(3,17,39,.38),transparent 55%)}
+.vu-full-copy{position:relative;z-index:2;width:min(1160px,100%);margin:0 auto;padding:76px 34px 82px;align-items:flex-start}
 .vu-full-copy h2{font-size:clamp(54px,7vw,88px);max-width:720px}
 .vu-full-copy>p{max-width:650px;font-size:17px;color:#f1f5fa}
 .vu-full-copy .vu-hero-actions{margin:24px 0 18px}
@@ -141,7 +141,7 @@ html{scroll-behavior:smooth;scroll-padding-top:88px}
 
 <div class="container">
 <section class="vu-home-hero vu-full-hero">
-<div class="vu-hero-video vu-full-video" aria-hidden="true"></div>
+<div class="vu-hero-video vu-full-video" aria-hidden="true"><iframe src="https://www.youtube.com/embed/jlBjs7-UROY?autoplay=1&amp;mute=1&amp;controls=0&amp;loop=1&amp;playlist=jlBjs7-UROY&amp;playsinline=1&amp;rel=0&amp;modestbranding=1" title="Victoria University 9th Graduation Ceremony (2025)" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
 <div class="vu-full-overlay"></div>
 <div class="vu-hero-copy vu-full-copy"><span class="vu-eyebrow">EXPLORE YOUR PATH</span><h2>The Future<br>is <em>Here.</em></h2><p>Experience a world-class transformative university education you deserve. Applications are now open for all programme levels.</p><div class="vu-hero-actions"><a href="#courses" class="gold-btn">Apply Now</a><a href="#courses" class="outline-btn">Explore Programmes</a><a href="https://victoriaug.live/ai/career-match" target="_blank" rel="noopener" class="outline-btn">Find My Programme ↗</a></div><div class="vu-level-links"><a href="#courses">Undergraduate</a><a href="#courses">Postgraduate</a><a href="#courses">Academic Upgrading</a><a href="#courses">Continuing Education</a></div></div>
 </section>
