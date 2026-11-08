@@ -38,7 +38,7 @@ footer{text-align:center;padding:25px;color:#64748b;font-size:13px}
 </head>
 <body>
 <header><h1>Davis VU Application Assistant</h1><p>Find a programme and start your application assistance request</p></header>
-<nav><a href="#courses">Courses</a><a href="#apply">Apply</a><a href="#about">About Davis</a></nav>
+<nav><a href="#courses">Courses</a><a href="#about">About Davis</a></nav>
 
 <div class="container">
 <section class="hero">
@@ -58,7 +58,7 @@ footer{text-align:center;padding:25px;color:#64748b;font-size:13px}
 <div class="grid" id="courseGrid"></div>
 </section>
 
-<section class="card" id="apply">
+<section class="card" id="apply" style="display:none">
 <h2>Application Assistance</h2>
 <p class="small">Selected programme: <b id="selectedCourse">No course selected yet</b></p><p class="small">📎 Your profile photo and academic documents will be sent with this application request.</p><div class="required-note"><b>Fields marked with *</b> are mandatory and must be completed before submitting.</div>
 <form action="https://formspree.io/f/mnpnroej" method="POST" enctype="multipart/form-data" id="applicationForm">
@@ -180,10 +180,14 @@ function setSessionsForCourse(code){
   }
 }
 function startApplication(){
+ if(!current)return;
  document.getElementById('programme').value=current[1];
  document.getElementById('selectedCourse').textContent=current[1];
  setSessionsForCourse(current[2]);
- closeModal();document.getElementById('apply').scrollIntoView({behavior:'smooth'});
+ closeModal();
+ const application=document.getElementById('apply');
+ application.style.display='block';
+ application.scrollIntoView({behavior:'smooth',block:'start'});
 }
 search.addEventListener('input',render);render();
 
