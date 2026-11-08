@@ -96,12 +96,35 @@ footer{background:var(--vu-navy);color:#c8d5e5;margin-top:35px}
 .vu-programme-showcase{margin:65px 0 45px}.vu-programme-showcase .vu-section-title{margin-bottom:25px}.vu-programme-photos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.vu-programme-photos a{position:relative;display:block;height:220px;overflow:hidden;background:#071d3b;text-decoration:none}.vu-programme-photos img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s;opacity:.9}.vu-programme-photos a:hover img{transform:scale(1.05)}.vu-programme-photos a:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,#06172ee8)}.vu-programme-photos span{position:absolute;z-index:1;left:16px;right:12px;bottom:16px;color:white;font:19px Georgia,serif}.vu-programme-showcase+#courses{margin-top:20px}#courses{scroll-margin-top:85px}#courses .small{line-height:1.65}
 @media(max-width:800px){.vu-programme-photos{grid-template-columns:repeat(2,minmax(0,1fr))}.vu-programme-photos a{height:190px}}
 @media(max-width:480px){.vu-programme-photos{grid-template-columns:1fr 1fr;gap:9px}.vu-programme-photos a{height:155px}.vu-programme-photos span{font-size:15px;left:10px;bottom:11px}}
+
+/* Final usability and polish */
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+:focus-visible{outline:3px solid #d8b66b;outline-offset:3px}
+.main-nav{gap:clamp(12px,2.5vw,30px);box-shadow:0 5px 16px #071d3b08}
+.main-nav a{white-space:nowrap}
+.programme-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:12px}
+.programme-heading h2{margin:8px 0 0}
+.programme-count{display:inline-flex;align-items:center;justify-content:center;background:#f3eddf;border:1px solid #e8dcc1;color:#74551f;padding:9px 13px;font-size:12px;font-weight:700;letter-spacing:.2px}
+#courses .filters{gap:9px}
+#courses .filters button{font-size:12px;transition:background .18s,color .18s,border-color .18s}
+.course{position:relative;display:flex;flex-direction:column;min-height:205px}
+.course .faculty{line-height:1.55;flex:1;margin-top:4px}
+.course button{margin-top:16px}
+.course button:hover,.submit:hover{filter:brightness(1.1)}
+.course:focus-within{border-color:#c6a15b;box-shadow:0 0 0 2px #c6a15b22}
+.floating-whatsapp{position:fixed;right:20px;bottom:20px;z-index:12;display:flex;align-items:center;gap:9px;background:#128c7e;color:#fff;text-decoration:none;padding:13px 17px;border-radius:30px;box-shadow:0 8px 25px #06172e35;font-size:13px;font-weight:700}
+.floating-whatsapp span{font-size:17px}
+.floating-whatsapp:hover{background:#0d756a;transform:translateY(-2px)}
+.vu-programme-photos a:focus-visible,.vu-life-grid figure:focus-within{outline:3px solid #d8b66b;outline-offset:3px}
+@media(max-width:700px){.main-nav{gap:19px;padding:13px 15px}.main-nav a{font-size:12px}.programme-heading{align-items:flex-start;flex-direction:column}.floating-whatsapp{right:13px;bottom:13px;padding:12px 15px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
+
 </style>
 </head>
 <body>
 <div class="topline">VICTORIA UNIVERSITY • KAMPALA, UGANDA <span>Admissions guidance & application assistance</span></div>
 <header class="site-header"><div class="brand-lockup"><div class="brand-mark">VU</div><div><h1>Davis VU Application Assistant</h1><p>YOUR GUIDE TO THE NEXT STEP</p></div></div><div class="header-contact"><a href="https://wa.me/256731046756" target="_blank" rel="noopener">WhatsApp Admissions Support</a></div></header>
-<nav class="main-nav"><a href="#courses">Explore Programmes</a><a href="#about">About Davis</a><a href="https://victoriaug.live/" target="_blank" rel="noopener">Official VU Website ↗</a></nav>
+<nav class="main-nav" aria-label="Main navigation"><a href="#courses">Explore Programmes</a><a href="#vu-life">Campus Life</a><a href="#contact">Admissions Support</a><a href="#about">About Davis</a><a href="https://victoriaug.live/" target="_blank" rel="noopener">Official VU Website ↗</a></nav>
 
 <div class="container">
 <section class="vu-home-hero">
@@ -130,7 +153,7 @@ footer{background:var(--vu-navy);color:#c8d5e5;margin-top:35px}
   </div>
 </section>
 <section class="card" id="courses">
-<h2>Victoria University Programmes</h2>
+<div class="programme-heading"><div><span class="vu-eyebrow dark">YOUR NEXT CHAPTER STARTS HERE</span><h2>Victoria University Programmes</h2></div><span class="programme-count" id="programmeCount" aria-live="polite">Loading programmes…</span></div>
 <p class="small">Programme names and codes below are based on Victoria University's current undergraduate programme listing. Always confirm current admission requirements and fees with Victoria University before enrolment.</p>
 <input class="search" id="search" placeholder="Search for Nursing, IT, Business, Law...">
 <div class="filters" id="levelFilters"></div><div class="filters" id="filters"></div>
@@ -150,7 +173,7 @@ footer{background:var(--vu-navy);color:#c8d5e5;margin-top:35px}
 <article><img src="https://victoriaug.live/__l5e/assets-v1/2fc0cf6c-f554-440b-bfa8-d74061a14da5/vu-IMG-20260811-WA0116.jpg" alt="Victoria University students collaborating" loading="lazy"><div><h3>Small Class Sizes</h3><p>Personalized attention from faculty who know your name and your goals.</p></div></article>
 <article><img src="https://victoriaug.live/__l5e/assets-v1/72c7ced1-0e2b-4934-8c28-a924fee80bc0/vu-IMG-20260811-WA0144.jpg" alt="Students participating in a Victoria University learning event" loading="lazy"><div><h3>One Module at a Time</h3><p>Deep focus. Master one subject at a time instead of juggling many.</p></div></article>
 </div></section>
-<section class="vu-life">
+<section class="vu-life" id="vu-life">
 <div class="vu-section-title"><span class="vu-eyebrow">LIFE AT VICTORIA</span><h2>A Global University for the Next Generation.</h2><p>Higher education goes beyond traditional classrooms. VU blends global perspectives, modern technology and real-world relevance to prepare students for tomorrow.</p><a class="gold-btn" href="https://victoriaug.live/students" target="_blank" rel="noopener">Explore Student Life ↗</a></div>
 <div class="vu-life-grid">
 <figure class="life-large"><img src="https://victoriaug.live/__l5e/assets-v1/13ce79c4-28bc-452b-b100-ce091ee80763/vu-IMG-20260811-WA0095.jpg" alt="Victoria University leadership addressing students in Kampala" loading="lazy"><figcaption><b>Campus Hall · Kampala</b><span>Where leadership, faculty and students meet.</span></figcaption></figure>
@@ -163,7 +186,7 @@ footer{background:var(--vu-navy);color:#c8d5e5;margin-top:35px}
 <div><span class="vu-eyebrow dark">LATEST NEWS</span><h2>Stay Updated</h2><p>The latest stories, updates and events from Victoria University.</p></div>
 <div class="vu-news-list"><a href="https://victoriaug.live/news" target="_blank" rel="noopener"><span>12 JAN 2026 · CAREERS</span><b>Job Advertisements</b><small>Read the latest career announcements →</small></a><a href="https://victoriaug.live/news" target="_blank" rel="noopener"><span>26 NOV 2025 · CAREERS</span><b>Field Attachment Coordinators Needed</b><small>Read more →</small></a><a href="https://victoriaug.live/news" target="_blank" rel="noopener"><span>06 OCT 2025 · EVENTS</span><b>Our Bright Minds Set to Compete in the University Quiz</b><small>Read more →</small></a><a href="https://victoriaug.live/news" target="_blank" rel="noopener"><span>03 OCT 2025 · GRADUATION</span><b>Graduates to be Honoured at Grand Ceremony</b><small>Read more →</small></a><a class="all-news" href="https://victoriaug.live/news" target="_blank" rel="noopener">View all news & events ↗</a></div>
 </section>
-<section class="vu-contact-band"><div><span class="vu-eyebrow">NEED MORE INFORMATION?</span><h2>Take the next step in your academic journey.</h2><p>Need guidance exploring programmes or preparing your application? Davis is available to help.</p></div><a href="https://wa.me/256731046756" target="_blank" rel="noopener">Talk to Davis on WhatsApp ↗</a></section>
+<section class="vu-contact-band" id="contact"><div><span class="vu-eyebrow">NEED MORE INFORMATION?</span><h2>Take the next step in your academic journey.</h2><p>Need guidance exploring programmes or preparing your application? Davis is available to help.</p></div><a href="https://wa.me/256731046756" target="_blank" rel="noopener">Talk to Davis on WhatsApp ↗</a></section>
 
 
 <section class="card" id="apply" style="display:none">
@@ -211,6 +234,7 @@ footer{background:var(--vu-navy);color:#c8d5e5;margin-top:35px}
 <button class="submit" onclick="startApplication()">Apply Now</button>
 </div></div>
 
+<a class="floating-whatsapp" href="https://wa.me/256731046756" target="_blank" rel="noopener" aria-label="Chat with Davis on WhatsApp"><span aria-hidden="true">◉</span> Chat with Davis</a>
 <footer>Assisted by Davis Ssemakula • Independent student application assistance</footer>
 
 <script>
@@ -227,10 +251,13 @@ function render(){
  grid.innerHTML='';
  programmes.filter(p=>(facultyFilter==='All'||p[0]===facultyFilter)&&(levelFilter==='All'||(p[3]||'Undergraduate')===levelFilter)&&p[1].toLowerCase().includes(q)).forEach((p,i)=>{
   const d=document.createElement('div');d.className='course';
-  d.innerHTML=`<span class="code">${p[2]}</span><h3>${p[1]}</h3><div class="faculty">${p[0]} · ${p[3]||"Undergraduate"}</div><button>View Requirements & Apply</button>`;
+  d.innerHTML=`<span class="code">${p[2]}</span><h3>${p[1]}</h3><div class="faculty">${p[0]} · ${p[3]||"Undergraduate"}</div><button type="button">View Programme Details →</button>`;
   d.querySelector('button').onclick=()=>openCourse(i,p);
   grid.appendChild(d);
  });
+ const count=document.getElementById('programmeCount');
+ if(count) count.textContent=grid.children.length+' programme'+(grid.children.length===1?'':'s')+' shown';
+ if(count && !q && facultyFilter==='All' && levelFilter==='All') count.textContent=programmes.length+' programmes available';
 }
 const programmeInfo={
 BIT:{slug:"bit",about:"A practical information technology degree covering computing systems, software, networks and digital services.",study:["Computer Fundamentals & Hardware","Programming (Python/JavaScript)","Networking & Systems Administration","Database Management","Web & Mobile Development","Cybersecurity Fundamentals","Cloud & Virtualisation","IT Project Management"],outcomes:["Systems Administrator","Network Engineer","IT Support Specialist","Web Developer","Cloud Support Engineer","IT Consultant"],fees:["UGX 1,200,000 per trimester","UGX 3,600,000 per year","USD 1,400 per year (international)"],application:"UGX 50,000 local / USD 30 international"},
