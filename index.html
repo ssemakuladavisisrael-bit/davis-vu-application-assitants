@@ -58,6 +58,19 @@ footer{background:var(--vu-navy);color:#c8d5e5;margin-top:35px}
 #about{border-left:4px solid var(--vu-gold)}
 @media(max-width:700px){.topline{padding:9px 16px;font-size:9px;flex-direction:column;gap:4px}.site-header{padding:15px 16px}.site-header h1{font-size:16px}.header-contact{display:none}.main-nav{justify-content:flex-start;gap:22px;overflow:auto;white-space:nowrap}.container{padding:0 13px;margin:16px auto}.hero{grid-template-columns:1fr;padding:32px 23px 62px;gap:22px;min-height:0}.hero h2{font-size:34px}.hero-aside{max-width:100%}.hero-foot{padding:12px 20px;font-size:8px;line-height:1.6}.card{padding:21px 17px}.card h2{font-size:24px}.grid{grid-template-columns:1fr}.actions{gap:15px}}
 </style>
+<style>
+.vu-welcome{margin:25px 0 34px;padding:58px 52px;background:linear-gradient(115deg,#061a35,#0b3d78);color:#fff;position:relative;overflow:hidden}
+.vu-welcome:after{content:"VU";position:absolute;right:4%;top:5%;font-family:Georgia,serif;font-size:190px;font-weight:bold;color:#ffffff0b;line-height:1}
+.section-kicker{font-size:10px;letter-spacing:2px;font-weight:700;color:#bd9850}
+.vu-welcome h2{font-family:Georgia,serif;color:#fff;font-size:clamp(32px,4vw,48px);line-height:1.13;margin:16px 0}
+.vu-welcome h2 em{color:#e2c17d;font-weight:400}.vu-welcome p{max-width:620px;color:#d7e2ef;line-height:1.8;font-size:15px}
+.welcome-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.welcome-actions a{padding:13px 18px;background:#d8b66b;color:#071d3b;text-decoration:none;font-weight:700;font-size:13px}.welcome-actions a+ a{background:transparent;border:1px solid #ffffff70;color:#fff}
+.vu-features{padding:24px 0 32px}.section-heading{text-align:center;max-width:700px;margin:0 auto 25px}.section-heading h2,.vu-news h2,.vu-pathway h2{font-family:Georgia,serif;color:#071d3b;font-size:30px;margin:10px 0}.section-heading p,.vu-news p,.vu-pathway p{color:#66758a;line-height:1.7;font-size:14px}
+.feature-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.feature-card{background:#fff;border:1px solid #e3e9f1;border-top:3px solid #c7a35d;padding:23px;min-height:210px}.feature-number{font-family:Georgia,serif;color:#c3a05e;font-size:22px}.feature-card h3{color:#09284d;font-size:17px;margin:16px 0 9px}.feature-card p{color:#64748b;font-size:13px;line-height:1.7}.feature-card a{display:inline-block;margin-top:8px;color:#0b3d91;font-size:12px;font-weight:700;text-decoration:none}
+.vu-pathway{margin:18px 0 28px;padding:28px 32px;background:#eaf0f7;display:flex;justify-content:space-between;align-items:center;gap:24px}.vu-pathway>div{max-width:700px}.vu-pathway h2{font-size:26px}.vu-pathway p{margin-bottom:0}.vu-pathway>a,.vu-news>a{background:#0b3d78;color:#fff;text-decoration:none;padding:14px 18px;white-space:nowrap;font-size:13px;font-weight:700}
+.vu-news{display:flex;align-items:center;justify-content:space-between;gap:25px;padding:27px 30px;background:#fff;border:1px solid #e3e9f1;margin:22px 0}.vu-news>div{max-width:700px}.vu-news h2{font-size:25px}.vu-news p{margin-bottom:0}.about-card{border-left:4px solid #c7a35d}
+@media(max-width:760px){.vu-welcome{padding:38px 24px}.vu-welcome:after{font-size:130px;right:-5px}.feature-grid{grid-template-columns:1fr}.feature-card{min-height:0}.vu-pathway,.vu-news{align-items:flex-start;flex-direction:column;padding:23px}.section-heading h2,.vu-news h2{font-size:25px}}
+</style>
 </head>
 <body>
 <div class="topline">VICTORIA UNIVERSITY • KAMPALA, UGANDA <span>Admissions guidance & application assistance</span></div>
@@ -71,6 +84,31 @@ footer{background:var(--vu-navy);color:#c8d5e5;margin-top:35px}
 <div class="hero-foot">UNDERGRADUATE <i>•</i> POSTGRADUATE <i>•</i> ACADEMIC UPGRADING <i>•</i> SHORT COURSES</div>
 </section>
 
+<section class="vu-welcome">
+<div class="section-kicker">DISCOVER VICTORIA UNIVERSITY</div>
+<h2>The future is here.<br><em>Explore your possibilities.</em></h2>
+<p>Victoria University combines academic learning, practical experience and digital innovation to prepare students for a changing world.</p>
+<div class="welcome-actions"><a href="https://victoriaug.live/about-vu" target="_blank" rel="noopener">Discover VU ↗</a><a href="https://victoriaug.live/admissions" target="_blank" rel="noopener">Official admissions ↗</a></div>
+</section>
+<section class="vu-features">
+<div class="section-heading"><span class="section-kicker">THE VU EXPERIENCE</span><h2>What makes VU special</h2><p>Explore the learning experience and opportunities highlighted by Victoria University.</p></div>
+<div class="feature-grid">
+<article class="feature-card"><span class="feature-number">01</span><h3>AI and digital transformation</h3><p>Discover VU's focus on digital competency and AI-integrated learning for the modern world.</p><a href="https://vu.ac.ug/" target="_blank" rel="noopener">Explore VU ↗</a></article>
+<article class="feature-card"><span class="feature-number">02</span><h3>Big-picture learning</h3><p>Learning designed to build confidence, practical skills and the ability to apply knowledge.</p><a href="https://vu.ac.ug/academics" target="_blank" rel="noopener">Academic approach ↗</a></article>
+<article class="feature-card"><span class="feature-number">03</span><h3>VClass online learning</h3><p>Explore online and blended learning through VU's digital learning environment.</p><a href="https://vu.ac.ug/" target="_blank" rel="noopener">Learn about VClass ↗</a></article>
+<article class="feature-card"><span class="feature-number">04</span><h3>Work-integrated experience</h3><p>Connect classroom learning with practical workplace experience and industry exposure.</p><a href="https://vu.ac.ug/academics" target="_blank" rel="noopener">Explore academics ↗</a></article>
+<article class="feature-card"><span class="feature-number">05</span><h3>A global student community</h3><p>Learn in a university community that welcomes students from Uganda and around the world.</p><a href="https://victoriaug.live/about-vu" target="_blank" rel="noopener">About Victoria University ↗</a></article>
+<article class="feature-card"><span class="feature-number">06</span><h3>Flexible study pathways</h3><p>Explore undergraduate, postgraduate, academic upgrading and continuing education options.</p><a href="#courses">Browse programmes ↓</a></article>
+</div>
+</section>
+<section class="vu-pathway">
+<div><span class="section-kicker">YOUR NEXT STEP</span><h2>Find a programme that fits your ambition.</h2><p>Browse the programme catalogue, review the available information and contact Davis for independent application guidance.</p></div>
+<a href="#courses">Explore programmes <span>→</span></a>
+</section>
+<section class="vu-news">
+<div><span class="section-kicker">STAY CONNECTED</span><h2>What's happening at VU?</h2><p>Visit the official Victoria University news and events page for announcements, university activities, opportunities and updates.</p></div>
+<a href="https://victoriaug.live/news" target="_blank" rel="noopener">Latest news & events ↗</a>
+</section>
 <section class="card" id="courses">
 <h2>Victoria University Programmes</h2>
 <p class="small">Programme names and codes below are based on Victoria University's current undergraduate programme listing. Always confirm current admission requirements and fees with Victoria University before enrolment.</p>
@@ -109,9 +147,11 @@ footer{background:var(--vu-navy);color:#c8d5e5;margin-top:35px}
 </form>
 </section>
 
-<section class="card" id="about">
-<h2>About Davis</h2>
-<p class="small">Davis Ssemakula provides independent assistance to students who want guidance with the Victoria University application process.</p>
+<section class="card about-card" id="about">
+<span class="section-kicker">PERSONAL APPLICATION GUIDANCE</span><h2>About Davis</h2>
+<p class="small">Davis Ssemakula provides independent assistance to prospective students who want guidance exploring Victoria University programmes and preparing their application information.</p>
+<div class="actions"><a class="whatsapp" href="https://wa.me/256731046756" target="_blank" rel="noopener">Contact Davis on WhatsApp</a><a class="call" href="tel:+256706279902">Call Davis</a></div>
+<p class="small">This is an independent application assistance service and is not the official Victoria University website. For official information, visit <a href="https://victoriaug.live/" target="_blank" rel="noopener">Victoria University</a>.</p>
 </section>
 </div>
 
