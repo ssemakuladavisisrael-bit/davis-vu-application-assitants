@@ -254,15 +254,7 @@ html{scroll-behavior:smooth;scroll-padding-top:88px}
 <article><span>03</span><h3>Career readiness & employability</h3><p>Stand out and graduate ready for the world of work.</p></article>
 <article><span>04</span><h3>Flexible course delivery</h3><p>In-person and online classes. Never compromise on your education.</p></article>
 </section>
-<section class="vu-programme-showcase">
-  <div class="vu-section-title"><span class="vu-eyebrow dark">FIND YOUR PATH</span><h2>Explore Our Programmes</h2><p>Discover opportunities across health sciences, business, technology and other fields. Browse the programme catalogue below to find a course that matches your ambitions.</p></div>
-  <div class="vu-programme-photos">
-    <a href="#courses"><img src="https://victoriaug.live/__l5e/assets-v1/780ff2b1-4449-4c42-8ab5-876ed53681e4/vu-IMG-20260811-WA0140.jpg" alt="Victoria University students learning in a computer laboratory"><span>Technology & Innovation</span></a>
-    <a href="#courses"><img src="https://victoriaug.live/__l5e/assets-v1/f8ccf185-ed4e-4538-bd85-92fc4868487d/vu-IMG-20260811-WA0062.jpg" alt="Victoria University students collaborating on campus"><span>Business & Leadership</span></a>
-    <a href="#courses"><img src="https://victoriaug.live/__l5e/assets-v1/72c7ced1-0e2b-4934-8c28-a924fee80bc0/vu-IMG-20260811-WA0144.jpg" alt="Victoria University students during a learning session"><span>Health & Professional Studies</span></a>
-    <a href="#courses"><img src="https://victoriaug.live/__l5e/assets-v1/2fc0cf6c-f554-440b-bfa8-d74061a14da5/vu-IMG-20260811-WA0116.jpg" alt="Victoria University campus student activities"><span>Education & Community</span></a>
-  </div>
-</section>
+
 <section class="card programme-explorer" id="courses" style="display:none">
 <div class="programme-heading"><div><span class="vu-eyebrow dark">YOUR NEXT CHAPTER STARTS HERE</span><h2>Explore Victoria University Programmes</h2></div><span class="programme-count" id="programmeCount" aria-live="polite">Choose a study category</span></div>
 <p class="small">Start by choosing the type of study you are interested in. Then select an academic sector to see its available programmes.</p>
@@ -385,6 +377,7 @@ function openExplorer(level='All'){
  explorer.scrollIntoView({behavior:'smooth',block:'start'});
 }
 document.querySelectorAll('.open-programme-explorer').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openExplorer('All');}));
+document.querySelectorAll('a[href="#courses"]:not(.open-programme-explorer):not([data-study-level])').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openExplorer('All');}));
 document.querySelectorAll('[data-study-level]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openExplorer(a.dataset.studyLevel);}));
 document.getElementById('backToCategories').addEventListener('click',()=>openExplorer('All'));
 document.getElementById('backToSectors').addEventListener('click',()=>showSectors());
