@@ -122,14 +122,14 @@ footer{text-align:center;padding:25px;color:#64748b;font-size:13px}
 
 /* Victoria University crest and relevant programme photography */
 .reference-mark{overflow:hidden;background:#fff!important;border:0!important;border-radius:10px 10px 16px 16px!important;padding:3px;box-shadow:0 2px 8px #0d1b3e20}
-.reference-mark img{display:block;width:100%;height:100%;object-fit:contain;border-radius:7px}
+.reference-mark img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;border-radius:7px;transform:scale(1.18)}
 .category-choice,.sector-choice{position:relative;overflow:hidden;padding:0 0 18px!important}
 .category-choice img,.sector-choice img{display:block;width:100%;height:142px;object-fit:cover;background:#e8edf4}
 .category-choice strong,.sector-choice strong{padding:0 17px}
 .category-choice span,.sector-choice span{padding:0 17px}
 .category-choice em,.sector-choice em{padding:0 17px}
 .explorer-card-top{display:flex;align-items:center;justify-content:space-between;padding:10px 15px 0}
-.explorer-card-top img{width:29px;height:29px;object-fit:contain;border-radius:5px}
+.explorer-card-top img{width:32px;height:32px;object-fit:cover;object-position:center;border-radius:50%;background:#fff;border:2px solid #fff;box-shadow:0 1px 5px #071d3b30;overflow:hidden}
 .explorer-card-top span{font-size:10px;font-weight:800;letter-spacing:.08em;color:#9b2734}
 .course{overflow:hidden;padding:0 0 18px!important}
 .course-photo{display:block;width:100%;height:155px;object-fit:cover;background:#e8edf4}
@@ -407,6 +407,27 @@ function imageForSector(sector){
  if(f.includes('language'))return vuImages.languages;
  return vuImages.education;
 }
+function imageForProgramme(p){
+ const name=String(p[1]||'').toLowerCase(), code=String(p[2]||'').toUpperCase();
+ const photos=[
+  [/nursing|midwifery|BNS|BNT|BMS/i,'https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=900&q=85'],
+  [/pharmacy|BPC/i,'https://images.unsplash.com/photo-1576602976047-174e57a47881?auto=format&fit=crop&w=900&q=85'],
+  [/public health|global health|nutrition|health service|biological sciences|MPH|BPH|BND|MHS|MGN|MSH|HEB/i,'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=900&q=85'],
+  [/agriculture|rural innovation|NCA|BAR|DAR/i,'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=85'],
+  [/law|LLB|LLM|LM[A-Z]/i,'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=900&q=85'],
+  [/information technology|computer science|software|cyber|artificial intelligence|data science|computing|block chain|ICT|computer repair|BIT|DIT|BCS|BCD|BAD|BSF|BBC|MCS|MCB|MBD|MBC|MIT|NIT|NCR|CSF/i,'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=85'],
+  [/business|accounting|finance|procurement|logistics|economics|real estate|property|marketing|human resource|HRM|management|entrepreneurship|MBA|BAF|BBA|BEF|NAF|CBA|CPM|DPL|BPL|MBM|MAF|MHR/i,'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=85'],
+  [/tourism|hospitality|hotel|culinary|events|clearing and forwarding|CTH|BTH|BEM|BHM|DTH|DHM|DEM|CCF|CHI/i,'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=85'],
+  [/education|teaching|early childhood|primary|pedagogy|higher education|BSE|BAE|BAI|BEI|BSI|BEC|BPE|BPS|PHE|PDE|CEC|HET|HEE/i,'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=900&q=85'],
+  [/journalism|media|communication|film|TV production|digital media|visual effects|animation|DJM|BJM|BFT|BAV|DAV|MMC/i,'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=900&q=85'],
+  [/music|dance|sound|BMD|DMD/i,'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=900&q=85'],
+  [/social work|counselling|guidance|peace|human rights|diplomacy|international relations|public administration|governance|library|records|secretarial|CSW|CGC|HEG|CPA|CLI|CRM|NCS|MPD|MDG|MPA|BPA|BSW/i,'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=900&q=85'],
+  [/beauty|cosmetology/i,'https://images.unsplash.com/photo-1560750588-73207b1ef5b8?auto=format&fit=crop&w=900&q=85'],
+  [/language|chinese|english proficiency|french|german|kiswahili|CCP|CEP|CFP|CGP|CKP/i,'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=900&q=85']
+ ];
+ for(const [pattern,url] of photos){if(pattern.test(name)||pattern.test(code))return url;}
+ return imageForSector(p[0]);
+}
 function imageForLevel(level){
  if(level==='Postgraduate')return vuImages.business;
  if(level==='Academic Upgrading')return vuImages.technical;
@@ -462,7 +483,7 @@ function render(){
  const matches=programmes.filter(p=>(facultyFilter==='All'||p[0]===facultyFilter)&&(levelFilter==='All'||(p[3]||'Undergraduate')===levelFilter)&&p[1].toLowerCase().includes(q));
  matches.forEach(p=>{
   const d=document.createElement('div');d.className='course';
-  d.innerHTML='<img class="course-photo" src="'+imageForSector(p[0])+'" alt="'+p[1]+' — Victoria University learning environment" loading="lazy"><div class="explorer-card-top"><span>VICTORIA UNIVERSITY</span><img src="'+vuCrest+'" alt="VU crest" loading="lazy"></div><div class="course-content"><span class="code">'+p[2]+'</span><h3>'+p[1]+'</h3><div class="faculty">'+p[0]+' · '+(p[3]||'Undergraduate')+'</div><button type="button">View Programme Details →</button></div>';
+  d.innerHTML='<img class="course-photo" src="'+imageForProgramme(p)+'" alt="'+p[1]+' — related study and professional field" loading="lazy"><div class="explorer-card-top"><span>VICTORIA UNIVERSITY</span><img src="'+vuCrest+'" alt="VU crest" loading="lazy"></div><div class="course-content"><span class="code">'+p[2]+'</span><h3>'+p[1]+'</h3><div class="faculty">'+p[0]+' · '+(p[3]||'Undergraduate')+'</div><button type="button">View Programme Details →</button></div>';
   d.querySelector('button').onclick=()=>openCourse(programmes.indexOf(p),p);
   grid.appendChild(d);
  });
