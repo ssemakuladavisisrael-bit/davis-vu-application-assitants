@@ -47,6 +47,46 @@ footer{text-align:center;padding:25px;color:#64748b;font-size:13px}
 .vu-full-copy .vu-level-links{gap:22px}
 @media(max-width:800px){.vu-home-hero.vu-full-hero{min-height:650px}.vu-full-copy{padding:65px 24px}.vu-full-copy h2{font-size:clamp(48px,12vw,68px)}}
 @media(max-width:480px){.vu-home-hero.vu-full-hero{min-height:680px}.vu-full-copy{padding:52px 20px}.vu-full-copy>p{font-size:15px}.vu-full-copy .vu-hero-actions{gap:9px}.vu-full-copy .gold-btn,.vu-full-copy .outline-btn{font-size:12px;padding:12px 14px}}
+
+/* Reference-inspired opening layout */
+:root{--ref-navy:#0d1b3e;--ref-ink:#1b2a4a;--ref-red:#c8102e;--ref-gold:#e2b93b;--ref-cyan:#38c7f0;--ref-header:#eceef2}
+.reference-header{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:14px clamp(16px,3vw,34px);min-height:86px;background:var(--ref-header);border-bottom:1px solid #d9dce3;box-shadow:0 3px 15px #07152e0b}
+.reference-brand{display:flex;align-items:center;gap:13px;color:var(--ref-ink);text-decoration:none}
+.reference-mark{width:48px;height:48px;border:2px solid var(--ref-red);border-radius:50% 50% 8px 8px;display:grid;place-items:center;color:var(--ref-red);font-weight:800;font-size:17px;letter-spacing:-1px}
+.reference-brand-name{font-size:clamp(19px,2vw,26px);font-weight:500;letter-spacing:-.7px}
+.reference-brand-name b{color:var(--ref-red);font-weight:500}
+.reference-menu-btn{display:flex;align-items:center;gap:12px;border:0;border-radius:999px;background:var(--ref-navy);color:#fff;padding:7px 22px 7px 8px;font:600 16px Inter,Arial,sans-serif;cursor:pointer;box-shadow:0 8px 20px #0d1b3e35}
+.reference-menu-icon{width:42px;height:42px;border-radius:50%;background:#1b2b55;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px}
+.reference-menu-icon i{display:block;width:18px;height:2px;border-radius:2px;background:white}
+.reference-nav{display:none;position:sticky;top:86px;z-index:29;background:var(--ref-navy);padding:10px clamp(18px,4vw,40px) 20px;box-shadow:0 12px 25px #06152d40}
+.reference-nav.open{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:0 24px}
+.reference-nav a{display:block;padding:14px 4px;border-bottom:1px solid #ffffff20;color:#fff;text-decoration:none;font-size:14px;font-weight:600}
+.reference-nav a:hover{color:var(--ref-gold)}
+.reference-hero{min-height:calc(100svh - 86px)!important;max-height:900px;background:#07152e!important}
+.reference-hero .vu-full-video{background-color:#07152e}
+.reference-hero .vu-full-video iframe{width:100%;height:100%;object-fit:cover;transform:scale(1.12)}
+.reference-aurora{position:absolute;inset:-25%;z-index:1;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(circle at 25% 38%,#2f9be64d,transparent 38%),radial-gradient(circle at 72% 68%,#38c7f038,transparent 36%);animation:refDrift 18s ease-in-out infinite alternate}
+#referenceNetwork{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
+.reference-shade{z-index:3!important;background:linear-gradient(90deg,rgba(5,17,39,.88),rgba(5,17,39,.58) 55%,rgba(5,17,39,.28)),linear-gradient(0deg,rgba(5,17,39,.76),transparent 65%)!important}
+.reference-copy{z-index:4!important;padding:clamp(56px,9vh,100px) clamp(22px,5vw,72px) 90px!important;width:min(1240px,100%)!important}
+.reference-eyebrow{display:inline-block;margin-bottom:24px;color:var(--ref-gold);font:400 13px/1.4 'Space Mono',monospace;letter-spacing:.2em}
+.reference-copy h2{color:#fff!important;font-family:'Plus Jakarta Sans',Inter,sans-serif;font-size:clamp(54px,8vw,100px)!important;line-height:1.02;letter-spacing:-.065em;margin:0 0 22px;max-width:850px}
+.reference-copy h2 em{font-style:normal;background:linear-gradient(90deg,#fff 0%,#e2b93b 35%,#fff 70%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:refShimmer 5s linear infinite}
+.reference-copy>p{max-width:650px!important;color:#eef3fa!important;font-size:clamp(15px,1.5vw,18px)!important;line-height:1.75}
+.reference-actions{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0 25px!important}
+.reference-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:49px;border-radius:4px!important;padding:14px 21px!important;font-size:14px;font-weight:700;letter-spacing:.01em}
+.reference-actions .gold-btn{background:var(--ref-gold)!important;color:#14213d!important;border:1px solid var(--ref-gold)}
+.reference-actions .outline-btn{background:#ffffff0d!important;color:#fff!important;border:1px solid #ffffffa8!important;backdrop-filter:blur(8px)}
+.reference-actions a:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.reference-levels{display:flex;gap:0!important;flex-wrap:wrap}
+.reference-levels a{padding:0 18px 0 0!important;margin:0 18px 8px 0;border-right:1px solid #ffffff70;color:#f1f5fa!important;font-size:13px;font-weight:600}
+.reference-levels a:last-child{border:0}
+.reference-caption{margin-top:24px;color:#ffffffa8;font:10px 'Space Mono',monospace;letter-spacing:.16em}
+@keyframes refDrift{from{transform:translate3d(-4%,-3%,0) rotate(0)}to{transform:translate3d(5%,4%,0) rotate(12deg)}}
+@keyframes refShimmer{from{background-position:0 0}to{background-position:-220% 0}}
+@media(max-width:700px){.reference-header{min-height:74px;padding:10px 14px}.reference-mark{width:42px;height:42px}.reference-brand-name{font-size:18px}.reference-menu-btn{font-size:14px;padding-right:16px}.reference-menu-icon{width:38px;height:38px}.reference-nav{top:74px}.reference-hero{min-height:calc(100svh - 74px)!important;max-height:none}.reference-copy{padding:54px 20px 70px!important}.reference-copy h2{font-size:clamp(48px,13vw,70px)!important}.reference-actions{display:grid;grid-template-columns:1fr;max-width:330px}.reference-actions a{width:100%}.reference-levels{gap:8px 0!important}.reference-levels a{font-size:11px;padding-right:10px!important;margin-right:10px}.reference-caption{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.reference-aurora,.reference-copy h2 em{animation:none!important}.reference-hero .vu-full-video iframe{transform:none}}
+
 </style>
 <style>
 :root{--vu-navy:#071d3b;--vu-blue:#0b3d91;--vu-gold:#d6ad57;--ink:#18263b;--muted:#66758a;--paper:#f4f7fb}
@@ -135,15 +175,40 @@ html{scroll-behavior:smooth;scroll-padding-top:88px}
 </style>
 </head>
 <body>
-<div class="topline">VICTORIA UNIVERSITY • KAMPALA, UGANDA <span>Admissions guidance & application assistance</span></div>
-<header class="site-header"><div class="brand-lockup"><div class="brand-mark">VU</div><div><h1>Davis VU Application Assistant</h1><p>YOUR GUIDE TO THE NEXT STEP</p></div></div><div class="header-contact"><a href="https://wa.me/256731046756" target="_blank" rel="noopener">WhatsApp Admissions Support</a></div></header>
-<nav class="main-nav" aria-label="Main navigation"><a href="#courses">Explore Programmes</a><a href="#vu-life">Campus Life</a><a href="#contact">Admissions Support</a><a href="#about">About Davis</a><a href="https://victoriaug.live/" target="_blank" rel="noopener">Official VU Website ↗</a></nav>
+<header class="reference-header">
+  <a class="reference-brand" href="#" aria-label="Davis VU Application Assistant home">
+    <span class="reference-mark" aria-hidden="true">VU</span>
+    <span class="reference-brand-name">Victoria <b>University</b></span>
+  </a>
+  <button class="reference-menu-btn" id="referenceMenuBtn" type="button" aria-expanded="false" aria-controls="referenceNav">
+    <span class="reference-menu-icon" aria-hidden="true"><i></i><i></i><i></i></span><span>Menu</span>
+  </button>
+</header>
+<nav class="reference-nav" id="referenceNav" aria-label="Main navigation">
+  <a href="https://victoriaug.live/about-vu" target="_blank" rel="noopener">About VU</a>
+  <a href="#courses">Admissions</a><a href="#courses">Academics</a><a href="#vu-life">Students</a>
+  <a href="#news">News &amp; Gallery</a><a href="https://victoriaug.live/" target="_blank" rel="noopener">Official VU Website ↗</a>
+  <a href="#contact">Admissions Support</a><a href="#about">About Davis</a>
+</nav>
 
 <div class="container">
-<section class="vu-home-hero vu-full-hero">
-<div class="vu-hero-video vu-full-video" aria-hidden="true"><iframe src="https://www.youtube.com/embed/jlBjs7-UROY?autoplay=1&amp;mute=1&amp;controls=0&amp;loop=1&amp;playlist=jlBjs7-UROY&amp;playsinline=1&amp;rel=0&amp;modestbranding=1" title="Victoria University 9th Graduation Ceremony (2025)" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
-<div class="vu-full-overlay"></div>
-<div class="vu-hero-copy vu-full-copy"><span class="vu-eyebrow">EXPLORE YOUR PATH</span><h2>The Future<br>is <em>Here.</em></h2><p>Experience a world-class transformative university education you deserve. Applications are now open for all programme levels.</p><div class="vu-hero-actions"><a href="#courses" class="gold-btn">Apply Now</a><a href="#courses" class="outline-btn">Explore Programmes</a><a href="https://victoriaug.live/ai/career-match" target="_blank" rel="noopener" class="outline-btn">Find My Programme ↗</a></div><div class="vu-level-links"><a href="#courses">Undergraduate</a><a href="#courses">Postgraduate</a><a href="#courses">Academic Upgrading</a><a href="#courses">Continuing Education</a></div></div>
+<section class="vu-home-hero vu-full-hero reference-hero">
+  <div class="vu-hero-video vu-full-video" aria-hidden="true"><iframe src="https://www.youtube.com/embed/jlBjs7-UROY?autoplay=1&amp;mute=1&amp;controls=0&amp;loop=1&amp;playlist=jlBjs7-UROY&amp;playsinline=1&amp;rel=0&amp;modestbranding=1" title="Victoria University 9th Graduation Ceremony (2025)" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+  <div class="reference-aurora" aria-hidden="true"></div>
+  <canvas id="referenceNetwork" aria-hidden="true"></canvas>
+  <div class="vu-full-overlay reference-shade"></div>
+  <div class="vu-hero-copy vu-full-copy reference-copy">
+    <span class="reference-eyebrow">EXPLORE YOUR PATH</span>
+    <h2>The Future<br>is <em>Here.</em></h2>
+    <p>Experience a world-class transformative university education you deserve. Applications are now open for all programme levels.</p>
+    <div class="vu-hero-actions reference-actions">
+      <a href="#courses" class="gold-btn">Apply Now</a>
+      <a href="#courses" class="outline-btn">Explore Programmes</a>
+      <a href="https://victoriaug.live/ai/career-match" target="_blank" rel="noopener" class="outline-btn">Find My Programme ↗</a>
+    </div>
+    <div class="vu-level-links reference-levels"><a href="#courses">Undergraduate</a><a href="#courses">Postgraduate</a><a href="#courses">Academic Upgrading</a><a href="#courses">Continuing Education</a></div>
+    <div class="reference-caption">VICTORIA UNIVERSITY · KAMPALA, UGANDA</div>
+  </div>
 </section>
 <section class="vu-announcement"><span>ANNOUNCEMENT</span><p><b>Applications are OPEN</b> — March, July & October intakes, Undergraduate, Postgraduate, Academic Upgrading and Short Courses. <a href="#courses">Explore programmes →</a></p></section>
 
@@ -355,5 +420,50 @@ document.getElementById('applicationForm').addEventListener('submit',async e=>{
  }catch(err){alert('Please check your internet connection and try again.')}finally{button.disabled=false;button.textContent='Submit Application Request';}
 });
 </script>
+
+<script>
+(function(){
+  const menu=document.getElementById('referenceMenuBtn');
+  const nav=document.getElementById('referenceNav');
+  if(menu&&nav){
+    menu.addEventListener('click',function(){
+      const open=nav.classList.toggle('open');
+      menu.setAttribute('aria-expanded',String(open));
+    });
+    nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+      nav.classList.remove('open');menu.setAttribute('aria-expanded','false');
+    }));
+  }
+  const canvas=document.getElementById('referenceNetwork');
+  if(!canvas||!canvas.getContext)return;
+  const ctx=canvas.getContext('2d');
+  const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let w=0,h=0,points=[],frame=0;
+  function resize(){
+    const rect=canvas.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2);
+    w=rect.width;h=rect.height;canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    const count=Math.max(24,Math.min(70,Math.round(w/19)));
+    points=Array.from({length:count},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22}));
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    for(let i=0;i<points.length;i++){
+      const p=points[i];p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>w)p.vx*=-1;if(p.y<0||p.y>h)p.vy*=-1;
+      ctx.beginPath();ctx.arc(p.x,p.y,1.25,0,Math.PI*2);ctx.fillStyle='rgba(185,220,255,.55)';ctx.fill();
+      for(let j=i+1;j<points.length;j++){
+        const q=points[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy);
+        if(d<125){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle='rgba(93,181,235,'+(0.13*(1-d/125))+')';ctx.lineWidth=.7;ctx.stroke();}
+      }
+    }
+    if(!reduce)frame=requestAnimationFrame(draw);
+  }
+  resize();draw();
+  window.addEventListener('resize',resize,{passive:true});
+  if(reduce)cancelAnimationFrame(frame);
+})();
+</script>
+
 </body>
 </html>
