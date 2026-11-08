@@ -129,7 +129,7 @@ footer{text-align:center;padding:25px;color:#64748b;font-size:13px}
 .category-choice span,.sector-choice span{padding:0 17px}
 .category-choice em,.sector-choice em{padding:0 17px}
 .explorer-card-top{display:flex;align-items:center;justify-content:space-between;padding:10px 15px 0}
-.explorer-card-top img{width:32px;height:32px;object-fit:cover;object-position:50% 24%;transform:scale(2.15);border-radius:50%;background:#fff;border:2px solid #fff;box-shadow:0 1px 5px #071d3b30;overflow:hidden}
+.vu-badge-crop{display:block;flex:0 0 34px;width:34px;height:34px;border-radius:50%;overflow:hidden;border:2px solid #fff;background:#fff;box-shadow:0 1px 5px #071d3b30}.vu-badge-crop img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 23%;transform:scale(2.35);border-radius:50%}
 .explorer-card-top span{font-size:10px;font-weight:800;letter-spacing:.08em;color:#9b2734}
 .course{overflow:hidden;padding:0 0 18px!important}
 .course-photo{display:block;width:100%;height:190px;object-fit:cover;object-position:center 35%;background:#e8edf4;filter:saturate(1.08);}
@@ -420,7 +420,7 @@ function imageForProgramme(p){
  if(has(/business|accounting|finance|procurement|logistics|economics|real estate|property|marketing|human resource|entrepreneurship|\bMBA\b|\bBAF\b|\bBBA\b|\bBEF\b|\bNAF\b|\bCBA\b|\bCPM\b|\bDPL\b|\bBPL\b|\bMBM\b|\bMAF\b|\bMHR\b/i)) return 'https://research.com/resized/uploads/4e2b0edc6a072e3e8df2064e13dc31b9_341f25d053.webp?format=large';
  if(has(/tourism|hospitality|hotel|culinary|events|clearing and forwarding|\bCTH\b|\bBTH\b|\bBEM\b|\bBHM\b|\bDTH\b|\bDHM\b|\bDEM\b|\bCCF\b|\bCHI\b/i)) return 'https://cache.marriott.com/is/image/marriotts7prod/lc-tyolc-kitchen-at-all-day-16487%3AClassic-Hor?fit=constrain&wid=1200';
  if(has(/education|teaching|early childhood|primary|pedagogy|higher education|\bBSE\b|\bBAE\b|\bBAI\b|\bBEI\b|\bBSI\b|\bBEC\b|\bBPE\b|\bBPS\b|\bPHE\b|\bPDE\b|\bCEC\b|\bHET\b|\bHEE\b/i)) return 'https://www.livehindustan.com/lh-img/smart/img/2026/01/13/1200x900/Bihar_Teacher_1768286291496_1768286295526.png';
- if(has(/journalism|media|communication|film|TV production|digital media|visual effects|animation|\bDJM\b|\bBJM\b|\bBFT\b|\bBAV\b|\bDAV\b|\bMMC\b/i)) return 'https://www.gettyimages.com/';
+ if(has(/journalism|media|communication|film|TV production|digital media|visual effects|animation|\bDJM\b|\bBJM\b|\bBFT\b|\bBAV\b|\bDAV\b|\bMMC\b/i)) return 'https://www.gct-int.org/img/media-project.jpg';
  if(has(/music|dance|sound|\bBMD\b|\bDMD\b/i)) return vuImages.humanities;
  if(has(/social work|counselling|guidance|peace|human rights|diplomacy|international relations|public administration|governance|library|records|secretarial|\bCSW\b|\bCGC\b|\bHEG\b|\bCPA\b|\bCLI\b|\bCRM\b|\bNCS\b|\bMPD\b|\bMDG\b|\bMPA\b|\bBPA\b|\bBSW\b/i)) return 'https://www.communitywork.org.au/sites/default/files/styles/max_1300x1300/public/images/iStock-874799582.jpg.webp?itok=dC7nuVAh';
  if(has(/beauty|cosmetology/i)) return vuImages.technical;
@@ -450,7 +450,7 @@ function buildCategories(){
  Object.entries(levelDescriptions).forEach(([level,description])=>{
   const count=programmes.filter(p=>(p[3]||'Undergraduate')===level).length;
   const card=document.createElement('button');card.type='button';card.className='category-choice';
-  card.innerHTML='<img src="'+imageForLevel(level)+'" alt="Victoria University '+level+' students and learning environment" loading="lazy"><div class="explorer-card-top"><span>VICTORIA UNIVERSITY</span><img src="'+vuCrest+'" alt="VU crest" loading="lazy"></div><strong>'+level+'</strong><span>'+description+'</span><em>'+count+' programme'+(count===1?'':'s')+'</em>';
+  card.innerHTML='<img src="'+imageForLevel(level)+'" alt="Victoria University '+level+' students and learning environment" loading="lazy"><div class="explorer-card-top"><span>VICTORIA UNIVERSITY</span><span class="vu-badge-crop"><img src="'+vuCrest+'" alt="VU crest" loading="lazy"></span></div><strong>'+level+'</strong><span>'+description+'</span><em>'+count+' programme'+(count===1?'':'s')+'</em>';
   card.addEventListener('click',()=>{levelFilter=level;showSectors();});
   categoryGrid.appendChild(card);
  });
@@ -465,7 +465,7 @@ function showSectors(){
  sectors.forEach(sector=>{
   const count=matches.filter(p=>p[0]===sector).length;
   const card=document.createElement('button');card.type='button';card.className='sector-choice';
-  card.innerHTML='<img src="'+imageForSector(sector)+'" alt="'+sector+' at Victoria University" loading="lazy"><div class="explorer-card-top"><span>VU · '+levelFilter.toUpperCase()+'</span><img src="'+vuCrest+'" alt="VU crest" loading="lazy"></div><strong>'+sector+'</strong><span>Explore programmes in this area</span><em>'+count+' programme'+(count===1?'':'s')+'</em>';
+  card.innerHTML='<img src="'+imageForSector(sector)+'" alt="'+sector+' at Victoria University" loading="lazy"><div class="explorer-card-top"><span>VU · '+levelFilter.toUpperCase()+'</span><span class="vu-badge-crop"><img src="'+vuCrest+'" alt="VU crest" loading="lazy"></span></div><strong>'+sector+'</strong><span>Explore programmes in this area</span><em>'+count+' programme'+(count===1?'':'s')+'</em>';
   card.addEventListener('click',()=>showProgrammes(sector));
   sectorGrid.appendChild(card);
  });
@@ -481,7 +481,7 @@ function render(){
  const matches=programmes.filter(p=>(facultyFilter==='All'||p[0]===facultyFilter)&&(levelFilter==='All'||(p[3]||'Undergraduate')===levelFilter)&&p[1].toLowerCase().includes(q));
  matches.forEach(p=>{
   const d=document.createElement('div');d.className='course';
-  d.innerHTML='<img class="course-photo" src="'+imageForProgramme(p)+'" alt="'+p[1]+' — related study and professional field" loading="lazy"><div class="explorer-card-top"><span>VICTORIA UNIVERSITY</span><img src="'+vuCrest+'" alt="VU crest" loading="lazy"></div><div class="course-content"><span class="code">'+p[2]+'</span><h3>'+p[1]+'</h3><div class="faculty">'+p[0]+' · '+(p[3]||'Undergraduate')+'</div><button type="button">View Programme Details →</button></div>';
+  d.innerHTML='<img class="course-photo" src="'+imageForProgramme(p)+'" alt="'+p[1]+' — related study and professional field" loading="lazy"><div class="explorer-card-top"><span>VICTORIA UNIVERSITY</span><span class="vu-badge-crop"><img src="'+vuCrest+'" alt="VU crest" loading="lazy"></span></div><div class="course-content"><span class="code">'+p[2]+'</span><h3>'+p[1]+'</h3><div class="faculty">'+p[0]+' · '+(p[3]||'Undergraduate')+'</div><button type="button">View Programme Details →</button></div>';
   d.querySelector('button').onclick=()=>openCourse(programmes.indexOf(p),p);
   grid.appendChild(d);
  });
