@@ -105,6 +105,20 @@ footer{text-align:center;padding:25px;color:#64748b;font-size:13px}
   }
 }
 
+
+/* Guided programme discovery: category → sector → programme */
+.programme-explorer{scroll-margin-top:105px}
+.explorer-subtitle{color:var(--vu-navy);font-size:19px;margin:24px 0 14px}
+.category-grid,.sector-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:16px 0 24px}
+.category-choice,.sector-choice{display:flex;flex-direction:column;align-items:flex-start;gap:10px;text-align:left;padding:22px;background:#fff;border:1px solid #dfe6ef;border-top:3px solid var(--vu-gold);border-radius:4px;cursor:pointer;min-height:145px;transition:transform .18s,box-shadow .18s}
+.category-choice:hover,.sector-choice:hover{transform:translateY(-3px);box-shadow:0 12px 24px #102b4c12}
+.category-choice strong,.sector-choice strong{font-size:17px;color:var(--vu-navy)}
+.category-choice span,.sector-choice span{font-size:13px;line-height:1.5;color:var(--muted)}
+.category-choice em,.sector-choice em{font-style:normal;font-size:11px;font-weight:700;color:#8a692c;letter-spacing:.04em}
+.explorer-back{border:0;background:#edf2f8;color:var(--vu-blue);font-weight:700;padding:10px 13px;border-radius:3px;cursor:pointer;margin:12px 0}
+#programmeStage .programme-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+#programmeStage .explorer-subtitle{margin:12px 0}
+@media(max-width:600px){.category-grid,.sector-grid{grid-template-columns:1fr}.category-choice,.sector-choice{min-height:115px}}
 </style>
 <style>
 :root{--vu-navy:#071d3b;--vu-blue:#0b3d91;--vu-gold:#d6ad57;--ink:#18263b;--muted:#66758a;--paper:#f4f7fb}
@@ -220,11 +234,11 @@ html{scroll-behavior:smooth;scroll-padding-top:88px}
     <h2>The Future<br>is <em>Here.</em></h2>
     <p>Experience a world-class transformative university education you deserve. Applications are now open for all programme levels.</p>
     <div class="vu-hero-actions reference-actions">
-      <a href="#courses" class="gold-btn">Apply Now</a>
-      <a href="#courses" class="outline-btn">Explore Programmes</a>
+      <a href="#courses" class="gold-btn open-programme-explorer">Apply Now</a>
+      <a href="#courses" class="outline-btn open-programme-explorer">Explore Programmes</a>
       <a href="https://victoriaug.live/ai/career-match" target="_blank" rel="noopener" class="outline-btn">Find My Programme ↗</a>
     </div>
-    <div class="vu-level-links reference-levels"><a href="#courses">Undergraduate</a><a href="#courses">Postgraduate</a><a href="#courses">Academic Upgrading</a><a href="#courses">Continuing Education</a></div>
+    <div class="vu-level-links reference-levels"><a href="#courses" data-study-level="Undergraduate">Undergraduate</a><a href="#courses" data-study-level="Postgraduate">Postgraduate</a><a href="#courses" data-study-level="Academic Upgrading">Academic Upgrading</a><a href="#courses" data-study-level="Short Courses">Short Courses</a></div>
     <div class="reference-caption">VICTORIA UNIVERSITY · KAMPALA, UGANDA</div>
   </div>
 </section>
@@ -249,12 +263,25 @@ html{scroll-behavior:smooth;scroll-padding-top:88px}
     <a href="#courses"><img src="https://victoriaug.live/__l5e/assets-v1/2fc0cf6c-f554-440b-bfa8-d74061a14da5/vu-IMG-20260811-WA0116.jpg" alt="Victoria University campus student activities"><span>Education & Community</span></a>
   </div>
 </section>
-<section class="card" id="courses">
-<div class="programme-heading"><div><span class="vu-eyebrow dark">YOUR NEXT CHAPTER STARTS HERE</span><h2>Victoria University Programmes</h2></div><span class="programme-count" id="programmeCount" aria-live="polite">Loading programmes…</span></div>
-<p class="small">Programme names and codes below are based on Victoria University's current undergraduate programme listing. Always confirm current admission requirements and fees with Victoria University before enrolment.</p>
-<input class="search" id="search" placeholder="Search for Nursing, IT, Business, Law...">
-<div class="filters" id="levelFilters"></div><div class="filters" id="filters"></div>
-<div class="grid" id="courseGrid"></div>
+<section class="card programme-explorer" id="courses" style="display:none">
+<div class="programme-heading"><div><span class="vu-eyebrow dark">YOUR NEXT CHAPTER STARTS HERE</span><h2>Explore Victoria University Programmes</h2></div><span class="programme-count" id="programmeCount" aria-live="polite">Choose a study category</span></div>
+<p class="small">Start by choosing the type of study you are interested in. Then select an academic sector to see its available programmes.</p>
+<div id="categoryStage">
+  <h3 class="explorer-subtitle">1. Choose your study category</h3>
+  <div class="category-grid" id="categoryGrid"></div>
+</div>
+<div id="sectorStage" style="display:none">
+  <button type="button" class="explorer-back" id="backToCategories">← All study categories</button>
+  <h3 class="explorer-subtitle" id="sectorHeading">2. Choose your area of study</h3>
+  <div class="sector-grid" id="sectorGrid"></div>
+</div>
+<div id="programmeStage" style="display:none">
+  <button type="button" class="explorer-back" id="backToSectors">← All areas of study</button>
+  <div class="programme-heading"><h3 class="explorer-subtitle" id="programmeHeading">3. Available programmes</h3><span class="programme-count" id="programmeCountInner"></span></div>
+  <p class="small">Select a programme to read its details and entry information. Confirm current requirements and fees with VU Admissions.</p>
+  <input class="search" id="search" placeholder="Search within these programmes...">
+  <div class="grid" id="courseGrid"></div>
+</div>
 </section>
 <section class="vu-ai-section">
 <div class="vu-section-title"><span class="vu-eyebrow dark">AI POWERED LEARNING</span><h2>Victoria University leads Uganda's digital transformation.</h2><p>VU's programmes, platforms and partners are built for the intelligent economy.</p></div>
@@ -338,24 +365,75 @@ html{scroll-behavior:smooth;scroll-padding-top:88px}
 const programmes=[["Faculty of Science and Technology", "Bachelor of Agriculture & Rural Innovation", "BAR"], ["Faculty of Science and Technology", "Bachelor of Information Technology", "BIT"], ["Faculty of Science and Technology", "Diploma in Information Technology", "DIT"], ["Faculty of Science and Technology", "Bachelor of Industrial Art and Innovative Design", "BID"], ["Faculty of Business and Management", "Diploma in Procurement and Logistics Management", "DPL"], ["Faculty of Business and Management", "Bachelor of Procurement and Logistics Management", "BPL"], ["Faculty of Business and Management", "Bachelor of Science in International Oil and Gas Management", "BOA"], ["Faculty of Business and Management", "Bachelor of Tourism and Hospitality Management", "BTH"], ["Faculty of Business and Management", "Bachelor of Events and Hospitality Management", "BEM"], ["Faculty of Business and Management", "Bachelor of Real Estate and Property Management", "BRE"], ["Faculty of Business and Management", "Bachelor of Hotel Management and Culinary Art", "BHM"], ["Faculty of Business and Management", "Diploma in Events Management", "DEM"], ["Faculty of Business and Management", "Diploma in Tourism and Hospitality Management", "DTH"], ["Faculty of Business and Management", "Diploma in Hotel Management and Culinary Art", "DHM"], ["Faculty of Business and Management", "Diploma in Real Estates and Property Management", "DRE"], ["Faculty of Business and Management", "Bachelor of Business Administration", "BBA"], ["Faculty of Business and Management", "Bachelor of International Business", "BIB"], ["Faculty of Business and Management", "Diploma in Business Administration", "DBA"], ["Faculty of Science and Technology", "Bachelor of Science in Visual Effects and Animation", "BAV"], ["Faculty of Business and Management", "Bachelor of Arts in Human Resource Management", "BHR"], ["Faculty of Science and Technology", "Diploma in Visual Effects and Animation", "DAV"], ["Faculty of Business and Management", "Bachelor of Business Administration- Accounting and Finance", "BAF"], ["Faculty of Science and Technology", "Bachelor of Science in Computer Science", "BCS"], ["Faculty of Humanities and Social Sciences", "Bachelor of Social Work and Social Administration", "BSW"], ["Faculty of Humanities and Social Sciences", "Bachelor of Public Administration and Management", "BPA"], ["Faculty of Humanities and Social Sciences", "Bachelor of Arts in Journalism and Media Studies", "BJM"], ["Faculty of Humanities and Social Sciences", "Bachelor of Arts in International Relations and Diplomatic Studies", "BIR"], ["Faculty of Humanities and Social Sciences", "Bachelor of Guidance and Counselling", "BGC"], ["Faculty of Humanities and Social Sciences", "Diploma in Social Work and Social Administration", "DSW"], ["Faculty of Humanities and Social Sciences", "Diploma in International Relations and Diplomatic Studies", "DIR"], ["School of Law", "Bachelor of Laws", "LLB"], ["Faculty of Health Sciences", "Bachelor of Nursing Science (Direct)", "BNS"], ["Faculty of Health Sciences", "Bachelor of Midwifery Science (Top Up)", "BMS"], ["Faculty of Health Sciences", "Bachelor of Nursing Science (Top Up)", "BNT"], ["Faculty of Health Sciences", "Bachelor of Science in Public Health", "BPH"], ["Faculty of Science and Technology", "Bachelor of Science in Software Engineering", "BSF"], ["Faculty of Business and Management", "Diploma in Human Resource Management", "DHR"], ["Faculty of Health Sciences", "Bachelor of Pharmacy", "BPC"], ["Faculty of Health Sciences", "Bachelor of Science in Human Nutrition and Dietetics", "BND"], ["Faculty of Science and Technology", "Diploma In Agriculture & Rural Innovation", "DAR"], ["Faculty of Business and Management", "Bachelor Of Science In Energy Economics And Finance", "BEF"], ["Faculty of Humanities and Social Sciences", "Diploma in Journalism and Media Studies", "DJM"], ["Institute of Education and Life-Long Learning", "Bachelor of Science in Education", "BSE"], ["Faculty of Humanities and Social Sciences", "Bachelor Of Arts In Music And Dance", "BMD"], ["Faculty of Humanities and Social Sciences", "Diploma In Music", "DMD"], ["Faculty of Humanities and Social Sciences", "Bachelor Of Film, Tv Production And Digital Media", "BFT"], ["Faculty of Science and Technology", "Bachelor Of Science In Cyber Security And Digital Forensics", "BCD"], ["Faculty of Science and Technology", "Bachelor Of Science In Artificial Intelligence And Data Science", "BAD"], ["Institute of Education and Life-Long Learning", "Bachelor Of Arts In Education-Inservice", "BAI"], ["Institute of Education and Life-Long Learning", "Bachelor Of Early Childhood Education (Inservice)", "BEI"], ["Institute of Education and Life-Long Learning", "Bachelor of Science in Education (Inservice)", "BSI"], ["Institute of Education and Life-Long Learning", "Bachelor of Early Childhood Education", "BEC"], ["Institute of Education and Life-Long Learning", "Bachelor Of Education-Primary", "BPE"], ["Institute of Education and Life-Long Learning", "Bachelor Of Education-Primary (Inservice)", "BPS"], ["Institute of Education and Life-Long Learning", "Bachelor of Arts in Education", "BAE"], ["Faculty of Science and Technology", "Bachelor of Science in Business Computing and Data Analytics", "BBC"]];
 programmes.push(...[["Faculty of Business and Management","Master of Business Administration Marketing","MBM","Postgraduate"],["Faculty of Business and Management","Master of Monitoring and Evaluation","MME","Postgraduate"],["Faculty of Business and Management","Post Graduate Diploma in Monitoring and Evaluation","PME","Postgraduate"],["Faculty of Business and Management","Master of Science in Project Management","MPM","Postgraduate"],["Faculty of Business and Management","Master of Business Administration in International Oil and Gas Management","MOA","Postgraduate"],["Faculty of Business and Management","Postgraduate Diploma in Project Management","PPM","Postgraduate"],["Faculty of Business and Management","Master of Business Administration Generic","MBA","Postgraduate"],["Faculty of Business and Management","Master of Business Administration Real Estates and Property Management","MRE","Postgraduate"],["Faculty of Business and Management","Master of Business Administration Human Resource Management","MHR","Postgraduate"],["Faculty of Business and Management","Master of Business Administration Accounting and Finance","MAF","Postgraduate"],["Faculty of Health Sciences","Master of Science in Public Health","MPH","Postgraduate"],["Faculty of Health Sciences","Post Graduate Diploma in Nutrition and Leadership","PGN","Postgraduate"],["Faculty of Health Sciences","Master of Science in Health Service Management","MHS","Postgraduate"],["Faculty of Health Sciences","Master of Science in Global Health Nutrition","MGN","Postgraduate"],["Faculty of Health Sciences","Masters of Science in Sexual and Reproductive Health","MSH","Postgraduate"],["School of Law","Masters of Law in Media, Mass Communication and Journalism","LMM","Postgraduate"],["School of Law","Masters of Law in Natural Resources Law","LMN","Postgraduate"],["School of Law","Masters of Law in Sports and Entertainment Law","LMS","Postgraduate"],["School of Law","Masters of Law General","LLM","Postgraduate"],["School of Law","Masters of Law in Criminology, Penology and Criminal Justice","LMC","Postgraduate"],["School of Law","Masters of Law in Construction and Engineering Law","LME","Postgraduate"],["Faculty of Science and Technology","Master of Science in Health, Safety and Environmental Management","MHE","Postgraduate"],["Faculty of Science and Technology","Master of Science in Big Data Analytics","MBD","Postgraduate"],["Faculty of Science and Technology","Master of Science in Computer Science","MCS","Postgraduate"],["Faculty of Science and Technology","Master of Science in Cyber Security","MCB","Postgraduate"],["Faculty of Science and Technology","Master of Science in Block Chain and Financial Technologies","MBC","Postgraduate"],["Faculty of Science and Technology","Master of Science in Information Technology","MIT","Postgraduate"],["Institute of Education and Life-Long Learning","Postgraduate Diploma in Higher Education","PHE","Postgraduate"],["Institute of Education and Life-Long Learning","Master of Educational Administration and Management","MED","Postgraduate"],["Institute of Education and Life-Long Learning","Post Graduate Diploma in Education","PDE","Postgraduate"],["Faculty of Humanities and Social Sciences","Master of Arts in Peace, Human Rights and Development","MPD","Postgraduate"],["Faculty of Humanities and Social Sciences","Master of Arts in Mass Communication","MMC","Postgraduate"],["Faculty of Humanities and Social Sciences","Master in Diplomacy and Global Studies","MDG","Postgraduate"],["Faculty of Humanities and Social Sciences","Master of Arts in Public Administration and Management","MPA","Postgraduate"],["Institute of Advanced Technical Studies","Certificate in Tourism and Hospitality Management","CTH","Academic Upgrading"],["Institute of Advanced Technical Studies","National Certificate in Information and Communication Technology","NIT","Academic Upgrading"],["Institute of Advanced Technical Studies","National Certificate in Library and Information Science","CLI","Academic Upgrading"],["Institute of Advanced Technical Studies","National Certificate in Social Work and Social Administration","CSW","Academic Upgrading"],["Institute of Advanced Technical Studies","Certificate in Clearing and Forwarding","CCF","Academic Upgrading"],["Institute of Advanced Technical Studies","Certificate in CCTV Installation and Surveillance Systems","CTV","Academic Upgrading"],["Institute of Advanced Technical Studies","Certificate in Journalism and Media Studies","CJM","Academic Upgrading"],["Institute of Advanced Technical Studies","National Certificate in Secretarial and Office Management","NCS","Academic Upgrading"],["Institute of Advanced Technical Studies","National Certificate in Human Resource Management","NHR","Academic Upgrading"],["Institute of Advanced Technical Studies","Certificate in Early Childhood Education","CEC","Academic Upgrading"],["Institute of Advanced Technical Studies","Certificate in Public Administration and Management","CPA","Academic Upgrading"],["Institute of Advanced Technical Studies","National Certificate in Cosmetology and Beauty Therapy","NCB","Academic Upgrading"],["Institute of Advanced Technical Studies","Certificate in Procurement and Logistics Management","CPM","Academic Upgrading"],["Institute of Advanced Technical Studies","National Certificate in Computer Repair and Maintenance","NCR","Academic Upgrading"],["Institute of Advanced Technical Studies","Professional Certificate in Software Engineering","CSF","Academic Upgrading"],["Institute of Advanced Technical Studies","National Certificate in Accounting and Finance","NAF","Academic Upgrading"],["Institute of Advanced Technical Studies","National Certificate in Business Administration","CBA","Academic Upgrading"],["Institute of Advanced Technical Studies","Certificate in Digital Marketing","NCM","Academic Upgrading"],["Institute of Advanced Technical Studies","Certificate in Hotel Management and Institutional Catering","CHI","Academic Upgrading"],["Institute of Advanced Technical Studies","Certificate in Records and Information Management","CRM","Academic Upgrading"],["Institute of Advanced Technical Studies","National Certificate in Guidance and Counselling","CGC","Academic Upgrading"],["Institute of Advanced Technical Studies","National Certificate in Agriculture","NCA","Academic Upgrading"],["Faculty of Humanities and Social Sciences","Higher Education Certificate (HEC) General","HEG","Academic Upgrading"],["Faculty of Health Sciences","Higher Education Certificate in Biological Sciences","HEB","Academic Upgrading"],["Faculty of Science and Technology","Higher Education Certificate Physical Sciences","HEP","Academic Upgrading"],["Institute of Education and Life-Long Learning","Higher Education Certificate General","HET","Academic Upgrading"],["Institute of Education and Life-Long Learning","Higher Education Certificate Evening","HEE","Academic Upgrading"],["Language Centre","Certificate in Chinese Proficiency","CCP","Short Courses"],["Language Centre","Certificate in English Proficiency","CEP","Short Courses"],["Language Centre","Certificate in French Proficiency","CFP","Short Courses"],["Language Centre","Certificate in German Proficiency","CGP","Short Courses"],["Language Centre","Certificate in Kiswahili Proficiency","CKP","Short Courses"]]);
 const details={"BNS": {"duration": "4 years", "summary": "A professional nursing degree focused on nursing knowledge, clinical practice, critical thinking, ethics and patient care.", "requirements": "Victoria University states that direct entry considers UCE credits including English, Mathematics, Biology and Chemistry, plus UACE/equivalent requirements. Final eligibility is determined by the university."}, "BNT": {"duration": "2.5 years", "summary": "A Bachelor of Nursing Science top-up programme for eligible nursing diploma holders.", "requirements": "Victoria University lists diploma/registration and other qualification requirements; applicants should have their qualifications verified."}, "BPH": {"duration": "3 years", "summary": "A public-health degree covering health promotion, disease prevention and population health.", "requirements": "Victoria University lists relevant UCE/UACE or equivalent science requirements. Final eligibility is determined by the university."}, "BBA": {"duration": "3 years", "summary": "Business administration studies covering management and business practice.", "requirements": "Victoria University lists at least five UCE credits and two relevant UACE principal passes or equivalent for direct entry."}, "LLB": {"duration": "4 years", "summary": "A Bachelor of Laws programme covering legal knowledge and professional foundations.", "requirements": "Victoria University lists UCE English requirements and two UACE principal passes or equivalent for direct entry."}, "BSE": {"duration": "3 years", "summary": "A Bachelor of Science in Education programme combining science/education knowledge and teaching skills.", "requirements": "Victoria University lists UACE or equivalent with relevant principal passes, with related diploma pathways also available."}, "HEB": {"duration": "8 months", "summary": "A bridging programme designed to prepare eligible students for health-science undergraduate study.", "requirements": "Victoria University describes it as a pathway for A-level graduates, foreign students and eligible post-O-level health/biological-science backgrounds."}};
-const grid=document.getElementById('courseGrid'), search=document.getElementById('search'), filters=document.getElementById('filters');
-let facultyFilter='All', current=null, levelFilter='All';
-const levels=['All','Undergraduate','Postgraduate','Academic Upgrading','Short Courses'];levels.forEach(level=>{const b=document.createElement('button');b.textContent=level==='All'?'All levels':level;b.className=level==='All'?'active':'';b.onclick=()=>{levelFilter=level;document.querySelectorAll('#levelFilters button').forEach(x=>x.classList.remove('active'));b.classList.add('active');render();};document.getElementById('levelFilters').appendChild(b);});
-const faculties=['All',...new Set(programmes.map(p=>p[0]))];
-faculties.forEach(f=>{const b=document.createElement('button');b.textContent=f;b.className=f==='All'?'active':'';b.onclick=()=>{facultyFilter=f;document.querySelectorAll('.filters button').forEach(x=>x.classList.remove('active'));b.classList.add('active');render();};filters.appendChild(b);});
+const grid=document.getElementById('courseGrid'), search=document.getElementById('search');
+let current=null, levelFilter='All', facultyFilter='All';
+const explorer=document.getElementById('courses');
+const categoryGrid=document.getElementById('categoryGrid'),sectorGrid=document.getElementById('sectorGrid');
+const categoryStage=document.getElementById('categoryStage'),sectorStage=document.getElementById('sectorStage'),programmeStage=document.getElementById('programmeStage');
+const levelDescriptions={
+ 'Undergraduate':'Bachelor’s degrees and undergraduate diplomas.',
+ 'Postgraduate':'Advanced study for graduates and qualified professionals.',
+ 'Academic Upgrading':'Academic pathway and upgrading programmes.',
+ 'Short Courses':'Short-term, continuing and professional learning.'
+};
+function openExplorer(level='All'){
+ explorer.style.display='block';
+ categoryStage.style.display=level==='All'?'block':'none';
+ sectorStage.style.display='none';programmeStage.style.display='none';
+ levelFilter=level;facultyFilter='All';
+ if(level!=='All') showSectors();
+ explorer.scrollIntoView({behavior:'smooth',block:'start'});
+}
+document.querySelectorAll('.open-programme-explorer').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openExplorer('All');}));
+document.querySelectorAll('[data-study-level]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openExplorer(a.dataset.studyLevel);}));
+document.getElementById('backToCategories').addEventListener('click',()=>openExplorer('All'));
+document.getElementById('backToSectors').addEventListener('click',()=>showSectors());
+function buildCategories(){
+ categoryGrid.innerHTML='';
+ Object.entries(levelDescriptions).forEach(([level,description])=>{
+  const count=programmes.filter(p=>(p[3]||'Undergraduate')===level).length;
+  const card=document.createElement('button');card.type='button';card.className='category-choice';
+  card.innerHTML='<strong>'+level+'</strong><span>'+description+'</span><em>'+count+' programme'+(count===1?'':'s')+'</em>';
+  card.addEventListener('click',()=>{levelFilter=level;showSectors();});
+  categoryGrid.appendChild(card);
+ });
+}
+function showSectors(){
+ categoryStage.style.display='none';sectorStage.style.display='block';programmeStage.style.display='none';
+ document.getElementById('sectorHeading').textContent='2. Choose an area of study — '+levelFilter;
+ sectorGrid.innerHTML='';
+ const matches=programmes.filter(p=>(p[3]||'Undergraduate')===levelFilter);
+ const sectors=[...new Set(matches.map(p=>p[0]))].sort();
+ if(!sectors.length){sectorGrid.innerHTML='<p class="small">No programmes are currently listed in this category. Please contact VU Admissions for guidance.</p>';return;}
+ sectors.forEach(sector=>{
+  const count=matches.filter(p=>p[0]===sector).length;
+  const card=document.createElement('button');card.type='button';card.className='sector-choice';
+  card.innerHTML='<strong>'+sector+'</strong><span>Explore programmes in this area</span><em>'+count+' programme'+(count===1?'':'s')+'</em>';
+  card.addEventListener('click',()=>showProgrammes(sector));
+  sectorGrid.appendChild(card);
+ });
+}
+function showProgrammes(sector){
+ facultyFilter=sector;sectorStage.style.display='none';programmeStage.style.display='block';
+ document.getElementById('programmeHeading').textContent='3. '+sector+' programmes';
+ search.value='';render();
+}
 function render(){
- const q=search.value.toLowerCase();
+ const q=search.value.toLowerCase().trim();
  grid.innerHTML='';
- programmes.filter(p=>(facultyFilter==='All'||p[0]===facultyFilter)&&(levelFilter==='All'||(p[3]||'Undergraduate')===levelFilter)&&p[1].toLowerCase().includes(q)).forEach((p,i)=>{
+ const matches=programmes.filter(p=>(facultyFilter==='All'||p[0]===facultyFilter)&&(levelFilter==='All'||(p[3]||'Undergraduate')===levelFilter)&&p[1].toLowerCase().includes(q));
+ matches.forEach(p=>{
   const d=document.createElement('div');d.className='course';
-  d.innerHTML=`<span class="code">${p[2]}</span><h3>${p[1]}</h3><div class="faculty">${p[0]} · ${p[3]||"Undergraduate"}</div><button type="button">View Programme Details →</button>`;
-  d.querySelector('button').onclick=()=>openCourse(i,p);
+  d.innerHTML='<span class="code">'+p[2]+'</span><h3>'+p[1]+'</h3><div class="faculty">'+p[0]+' · '+(p[3]||'Undergraduate')+'</div><button type="button">View Programme Details →</button>';
+  d.querySelector('button').onclick=()=>openCourse(programmes.indexOf(p),p);
   grid.appendChild(d);
  });
- const count=document.getElementById('programmeCount');
- if(count) count.textContent=grid.children.length+' programme'+(grid.children.length===1?'':'s')+' shown';
- if(count && !q && facultyFilter==='All' && levelFilter==='All') count.textContent=programmes.length+' programmes available';
+ const count=matches.length+' programme'+(matches.length===1?'':'s')+' found';
+ document.getElementById('programmeCount').textContent=count;
+ document.getElementById('programmeCountInner').textContent=count;
 }
+search.addEventListener('input',render);
+buildCategories();
 const programmeInfo={
 BIT:{slug:"bit",about:"A practical information technology degree covering computing systems, software, networks and digital services.",study:["Computer Fundamentals & Hardware","Programming (Python/JavaScript)","Networking & Systems Administration","Database Management","Web & Mobile Development","Cybersecurity Fundamentals","Cloud & Virtualisation","IT Project Management"],outcomes:["Systems Administrator","Network Engineer","IT Support Specialist","Web Developer","Cloud Support Engineer","IT Consultant"],fees:["UGX 1,200,000 per trimester","UGX 3,600,000 per year","USD 1,400 per year (international)"],application:"UGX 50,000 local / USD 30 international"},
 BPH:{slug:"bph",about:"A public-health degree focused on disease prevention, health promotion and improving the health of communities and populations.",study:["Anatomy & Physiology","Introduction to Public Health","Epidemiology","Biostatistics","Health Promotion & Education","Environmental & Occupational Health","Community Health Practice","Health Systems Management"],outcomes:["Public Health Officer","Health Administrator","NGO Health Worker","Community Health Practitioner","Health Data Analyst","Programme Officer"],fees:["UGX 1,100,000 per trimester","UGX 3,300,000 per year","USD 1,200 per year (international)"],application:"UGX 50,000 local / USD 30 international"},
