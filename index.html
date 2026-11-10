@@ -149,6 +149,33 @@ footer{text-align:center;padding:25px;color:#64748b;font-size:13px}
 .reference-number{font-weight:800;letter-spacing:.04em;display:block;margin-top:7px}
 .file-guidance{background:#fff8e8;border:1px solid #f0dfb5;color:#6c531c;padding:11px 13px;border-radius:8px;font-size:12px;line-height:1.5;margin:12px 0}
 @media(max-width:520px){.application-stages{grid-template-columns:repeat(2,1fr)}.application-progress-top{align-items:flex-start;flex-direction:column}}
+
+/* Five-step application wizard inspired by VU's current application journey */
+.vu-wizard{margin:18px 0 22px;background:#fff;border:1px solid #dfe6ef;padding:18px;border-radius:4px}
+.vu-wizard-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.vu-wizard-head h3{margin:0 0 5px;color:var(--vu-navy);font-size:20px}
+.vu-wizard-head p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.vu-wizard-count{font-size:12px;font-weight:800;color:var(--vu-blue);white-space:nowrap}
+.vu-wizard-track{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin:0 0 20px}
+.vu-wizard-step{min-width:0;border:0;background:#eef2f7;color:#63738a;padding:10px 5px;text-align:center;font-size:11px;font-weight:700;line-height:1.35;border-radius:3px;cursor:pointer}
+.vu-wizard-step span{display:grid;place-items:center;width:25px;height:25px;margin:0 auto 6px;border-radius:50%;background:#dce4ef;color:#33445e;font-size:12px}
+.vu-wizard-step.active{background:#e8effa;color:#0b3d91;box-shadow:inset 0 -3px #d6ad57}
+.vu-wizard-step.active span,.vu-wizard-step.done span{background:#0b3d91;color:white}
+.vu-wizard-step.done{color:#0b3d91;background:#f0f5fb}
+.vu-wizard-panel{display:none;min-height:180px}
+.vu-wizard-panel.active{display:block}
+.vu-wizard-panel h4{margin:0 0 5px;color:var(--vu-navy);font-size:18px}
+.vu-wizard-panel>.small{margin:0 0 15px;line-height:1.5}
+.vu-wizard-controls{display:flex;justify-content:space-between;gap:10px;margin-top:22px;padding-top:15px;border-top:1px solid #e7edf4}
+.vu-wizard-controls button{border:1px solid #cbd5e1;background:#fff;color:#17345d;padding:12px 18px;border-radius:3px;font-weight:700;cursor:pointer}
+.vu-wizard-controls button.primary{background:var(--vu-blue);border-color:var(--vu-blue);color:white}
+.vu-wizard-controls button:disabled{opacity:.35;cursor:not-allowed}
+.vu-wizard-panel label{margin-top:17px}
+.vu-wizard-panel input,.vu-wizard-panel select,.vu-wizard-panel textarea{background:#fff}
+.vu-wizard-panel .small{line-height:1.55}
+.vu-wizard-panel .note{margin-top:18px}
+@media(max-width:560px){.vu-wizard{padding:13px}.vu-wizard-track{gap:3px}.vu-wizard-step{font-size:9px;padding:8px 2px}.vu-wizard-step span{width:22px;height:22px}.vu-wizard-controls button{padding:11px 13px;font-size:13px}}
+
 </style>
 <style>
 :root{--vu-navy:#071d3b;--vu-blue:#0b3d91;--vu-gold:#d6ad57;--ink:#18263b;--muted:#66758a;--paper:#f4f7fb}
@@ -362,7 +389,7 @@ html{scroll-behavior:smooth;scroll-padding-top:88px}
 <div class="application-progress" id="applicationProgress" aria-live="polite">
  <div class="application-progress-top"><span>Application completion</span><span id="applicationProgressText">0% complete</span></div>
  <div class="application-progress-track"><div class="application-progress-fill" id="applicationProgressFill"></div></div>
- <div class="application-stages"><div class="application-stage" data-stage="0">1. Personal details</div><div class="application-stage" data-stage="1">2. Academic details</div><div class="application-stage" data-stage="2">3. Documents</div><div class="application-stage" data-stage="3">4. Submission</div></div>
+ <div class="application-stages"><div class="application-stage active" data-stage="0">1. Student Photo</div><div class="application-stage" data-stage="1">2. Basic Information</div><div class="application-stage" data-stage="2">3. Bio Data</div><div class="application-stage" data-stage="3">4. Education</div><div class="application-stage" data-stage="4">5. Documents</div></div>
 </div>
 <div class="file-guidance"><b>Before uploading:</b> Use clear scans or photos. Each file must be 25 MB or smaller. You can attach up to 7 academic documents and up to 2 passport photographs.</div>
 <form action="https://formspree.io/f/mnpnroej" method="POST" enctype="multipart/form-data" id="applicationForm">
@@ -698,6 +725,87 @@ applicationForm.addEventListener('submit',async e=>{
   resize();draw();
   window.addEventListener('resize',resize,{passive:true});
   if(reduce)cancelAnimationFrame(frame);
+})();
+</script>
+
+
+<script>
+/* Build a true five-step form while retaining the existing Formspree submission and fields. */
+(function(){
+ const form=document.getElementById('applicationForm');
+ if(!form || form.dataset.wizardReady==='true') return;
+ form.dataset.wizardReady='true';
+ const progress=form.closest('#apply').querySelector('.application-progress');
+ const labels=['Student Photo','Basic Information','Bio Data','Education','Documents'];
+ const descriptions=[
+  'Upload a clear passport-style photograph for your application.',
+  'Enter your name and contact details so Admissions can identify and reach you.',
+  'Provide your nationality and current residence information.',
+  'Confirm the programme and provide your academic background.',
+  'Attach the supporting documents, review your details and submit your assistance request.'
+ ];
+ const wizard=document.createElement('div');
+ wizard.className='vu-wizard';
+ wizard.innerHTML='<div class="vu-wizard-head"><div><h3>Online Application</h3><p>Complete each section in order. Your progress is shown below.</p></div><div class="vu-wizard-count" id="vuWizardCount">Step 1 of 5</div></div><div class="vu-wizard-track" id="vuWizardTrack"></div><div id="vuWizardPanels"></div>';
+ if(progress) progress.insertAdjacentElement('afterend',wizard); else form.insertBefore(wizard,form.firstChild);
+ const track=wizard.querySelector('#vuWizardTrack'),panels=wizard.querySelector('#vuWizardPanels');
+ labels.forEach((name,i)=>{
+  const b=document.createElement('button');b.type='button';b.className='vu-wizard-step'+(i===0?' active':'');b.innerHTML='<span>'+(i+1)+'</span>'+name;b.addEventListener('click',()=>{if(i<currentStep)showStep(i);});track.appendChild(b);
+  const panel=document.createElement('section');panel.className='vu-wizard-panel'+(i===0?' active':'');panel.dataset.step=String(i);
+  panel.innerHTML='<h4>'+name+'</h4><p class="small">'+descriptions[i]+'</p>';
+  const fields=document.createElement('div');fields.className='vu-wizard-fields';panel.appendChild(fields);
+  const controls=document.createElement('div');controls.className='vu-wizard-controls';
+  const back=document.createElement('button');back.type='button';back.textContent='Back';back.disabled=i===0;back.addEventListener('click',()=>showStep(currentStep-1));
+  const next=document.createElement('button');next.type='button';next.className='primary';next.textContent=i===4?'Review and submit':'Save and continue';next.addEventListener('click',()=>{if(validateStep(i)){if(i<4)showStep(i+1);else{const submit=form.querySelector('button[type="submit"]');if(submit)submit.scrollIntoView({behavior:'smooth',block:'center'});}}});
+  controls.append(back,next);panel.appendChild(controls);panels.appendChild(panel);
+ });
+ let currentStep=0;
+ const groups=[
+  ['profile photo','photo'],
+  ['title','full name','phone / whatsapp','email'],
+  ['nationality','country of residence','physical address','home district / state'],
+  ['programme','preferred intake','preferred study session','education level','previous institution and qualification details'],
+  ['academic documents','national id or passport bio-data page','birth certificate','two recent passport-size photographs','recommendation letter','motivation statement','additional information','i agree to be contacted about my application']
+ ];
+ const fieldNodes=[...form.querySelectorAll('label')];
+ fieldNodes.forEach(label=>{
+  const key=label.textContent.trim().toLowerCase().replace(/\s+/g,' ');
+  let step=groups.findIndex(g=>g.includes(key));
+  if(step<0) step=4;
+  const panel=panels.children[step].querySelector('.vu-wizard-fields');
+  panel.appendChild(label);
+  let node=label.nextSibling;
+  while(node){
+   if(node.nodeType===1 && (node.tagName==='LABEL'||node.classList.contains('note')||node.tagName==='BUTTON'||node.id==='success')) break;
+   const next=node.nextSibling;
+   panel.appendChild(node);
+   node=next;
+  }
+ });
+ const note=form.querySelector('.note'),submit=form.querySelector('button[type="submit"]'),success=form.querySelector('#success');
+ const finalPanel=panels.children[4].querySelector('.vu-wizard-fields');
+ if(note) finalPanel.appendChild(note);
+ if(submit) finalPanel.appendChild(submit);
+ if(success) finalPanel.appendChild(success);
+ function validateStep(index){
+  const panel=panels.children[index];
+  const fields=[...panel.querySelectorAll('input,select,textarea')].filter(el=>el.required && el.type!=='hidden');
+  for(const field of fields){if(!field.checkValidity()){field.reportValidity();field.focus();return false;}}
+  return true;
+ }
+ function showStep(index){
+  if(index<0||index>4)return;
+  currentStep=index;
+  [...panels.children].forEach((p,i)=>p.classList.toggle('active',i===index));
+  [...track.children].forEach((b,i)=>{b.classList.toggle('active',i===index);b.classList.toggle('done',i<index);});
+  [...panels.children].forEach((p,i)=>{const buttons=p.querySelectorAll('.vu-wizard-controls button');buttons[0].disabled=i===0;});
+  wizard.querySelector('#vuWizardCount').textContent='Step '+(index+1)+' of 5';
+  const oldStages=[...document.querySelectorAll('.application-stage')];
+  oldStages.forEach((el,i)=>{el.classList.toggle('active',i===index);el.classList.toggle('done',i<index);});
+  wizard.scrollIntoView({behavior:'smooth',block:'start'});
+ }
+ form.addEventListener('input',()=>{const active=panels.children[currentStep];if(active) active.classList.remove('invalid');});
+ showStep(0);
 })();
 </script>
 
