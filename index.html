@@ -645,9 +645,7 @@ function updateApplicationProgress(){
  const pct=total?Math.round(complete/total*100):0;
  document.getElementById('applicationProgressFill').style.width=pct+'%';
  document.getElementById('applicationProgressText').textContent=pct+'% complete';
- const stages=[...document.querySelectorAll('.application-stage')];
- const stage=pct===100?3:pct>=65?2:pct>=35?1:0;
- stages.forEach((el,i)=>{el.classList.toggle('active',i===stage);el.classList.toggle('done',i<stage);});
+ // The five-step wizard controls the active stage independently.
 }
 applicationForm.addEventListener('input',updateApplicationProgress);
 applicationForm.addEventListener('change',updateApplicationProgress);
@@ -773,14 +771,15 @@ applicationForm.addEventListener('submit',async e=>{
   let step=groups.findIndex(g=>g.includes(key));
   if(step<0) step=4;
   const panel=panels.children[step].querySelector('.vu-wizard-fields');
-  panel.appendChild(label);
   let node=label.nextSibling;
+  const siblings=[];
   while(node){
    if(node.nodeType===1 && (node.tagName==='LABEL'||node.classList.contains('note')||node.tagName==='BUTTON'||node.id==='success')) break;
-   const next=node.nextSibling;
-   panel.appendChild(node);
-   node=next;
+   siblings.push(node);
+   node=node.nextSibling;
   }
+  panel.appendChild(label);
+  siblings.forEach(fieldNode=>panel.appendChild(fieldNode));
  });
  const note=form.querySelector('.note'),submit=form.querySelector('button[type="submit"]'),success=form.querySelector('#success');
  const finalPanel=panels.children[4].querySelector('.vu-wizard-fields');
